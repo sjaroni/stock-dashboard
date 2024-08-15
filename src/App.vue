@@ -20,6 +20,7 @@ export default {
 <style>
 body{
   margin: 0;
+  font-family: 'Rubik', sans-serif;
 }
 #app {
   min-height: 100vh;
@@ -27,6 +28,6 @@ body{
   padding: 100px;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  background: radial-gradient(71.11% 100% at 50% 0%, #020204 14.6%, #011F35 100%);
+  background: radial-gradient(71.11% 100% at 50% 0%, #020204 14.6%, #011F35 100%);  
 }
 </style>
