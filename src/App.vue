@@ -1,28 +1,37 @@
 <template>
-    <BaseCard>
-      <h1>Revenue last 3 years</h1>
-      <p>Dies ist ein Beispielinhalt für die erste Karte.</p>
-    </BaseCard>
+  <BaseCard>
+    <h1>Revenue last 3 years</h1>
+    <p>Dies ist ein Beispielinhalt für die erste Karte.</p>
+  </BaseCard>
 </template>
 
 <script>
 import BaseCard from './components/BaseCard.vue';
+import { stockService } from './services/stockService';
 
 export default {
   name: 'App',
-  components: {        
-    BaseCard
-  }
-}
+  components: {
+    BaseCard,
+  },
+  async created() {
+    this.data = await stockService.fetchData('$AAPL');
+    // console.log('Loaded data', this.data);    
+  },
+};
 </script>
 
 <style>
-body{
+body {
   margin: 0;
   font-family: 'Rubik', sans-serif;
   display: flex;
   justify-content: center;
-  background: radial-gradient(71.11% 100% at 50% 0%, #020204 14.6%, #011F35 100%);  
+  background: radial-gradient(
+    71.11% 100% at 50% 0%,
+    #020204 14.6%,
+    #011f35 100%
+  );
 }
 #app {
   width: 100vw;
