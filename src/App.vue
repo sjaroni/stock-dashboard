@@ -1,27 +1,54 @@
 <template>
-  <BaseCard>
+
+  <HeadLine />
+  <ThreeRows />
+  <!-- <BaseCard>
     <h1>Revenue last 3 years</h1>
     <p>Dies ist ein Beispielinhalt für die erste Karte.</p>
-  </BaseCard>
+  </BaseCard> -->
 </template>
 
 <script>
-import BaseCard from './components/BaseCard.vue';
+import HeadLine from './components/HeadLine.vue';
+import ThreeRows from './components/ThreeRows.vue';
+// import BaseCard from './components/BaseCard.vue';
 import { stockService } from './services/stockService';
 
 export default {
   name: 'App',
   components: {
-    BaseCard,
+    HeadLine,
+    ThreeRows,
+    // BaseCard,
   },
   async created() {
-    this.data = await stockService.fetchData('$AAPL');
-    // console.log('Loaded data', this.data);    
+    // this.data = await stockService.fetchData('$AAPL');
+    this.data = await stockService.getRevenue('$AAPL');
+    console.log('Loaded data', this.data);    
   },
 };
 </script>
 
 <style>
+*{
+  scrollbar-color: #39DAFF;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #39DAFF;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #00000000;
+    border: 1px solid #00000000;
+}
+
 body {
   margin: 0;
   font-family: 'Rubik', sans-serif;
@@ -34,9 +61,11 @@ body {
   );
 }
 #app {
+  position: relative;
   width: 100vw;
   max-width: 1440px;
   min-height: 100vh;
+  max-height: 1122px;
   padding: 100px;
   box-sizing: border-box;
   scroll-behavior: smooth;

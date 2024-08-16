@@ -12,7 +12,7 @@ export default {
 
 <style scoped>
 .baseCard {
-  background: #011F35;  
+  background: #011F35;
   padding: 20px 32px;
   gap: 20px;
   border-radius: 16px;
