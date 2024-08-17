@@ -27,9 +27,8 @@ export default {
 
 .row{
   display: flex;
-  align-items: center; /* Zentriert den Inhalt vertikal */
-  justify-content: center; /* Zentriert den Inhalt horizontal */
-  padding: 24px;
+  align-items: center;
+  justify-content: center;  
   gap: 24px;
   border-radius: 20px;
   opacity: 0px;

@@ -53,19 +53,21 @@ body {
   margin: 0;
   font-family: 'Rubik', sans-serif;
   display: flex;
-  justify-content: center;
+  justify-content: center;  
+  height: 100vh;
   background: radial-gradient(
     71.11% 100% at 50% 0%,
     #020204 14.6%,
     #011f35 100%
   );
+  background-attachment: fixed;
+  background-size: cover;
 }
 #app {
   position: relative;
   width: 100vw;
-  max-width: 1440px;
-  min-height: 100vh;
-  max-height: 1122px;
+  max-width: 1440px;  
+  height: 100%;
   padding: 100px;
   box-sizing: border-box;
   scroll-behavior: smooth;
