@@ -1,17 +1,11 @@
 <template>
-
   <HeadLine />
   <ThreeRows />
-  <!-- <BaseCard>
-    <h1>Revenue last 3 years</h1>
-    <p>Dies ist ein Beispielinhalt für die erste Karte.</p>
-  </BaseCard> -->
 </template>
 
 <script>
 import HeadLine from './components/HeadLine.vue';
 import ThreeRows from './components/ThreeRows.vue';
-// import BaseCard from './components/BaseCard.vue';
 import { stockService } from './services/stockService';
 
 export default {
@@ -19,7 +13,6 @@ export default {
   components: {
     HeadLine,
     ThreeRows,
-    // BaseCard,
   },
   async created() {
     // this.data = await stockService.fetchData('$AAPL');
