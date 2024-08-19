@@ -1,63 +1,79 @@
 <template>
   <div class="three-rows-container">
     <div class="row rowOne">
-      <BaseCard v-for="(company, index) in globalArray" :key="index">
-        <img :src="company.icon" alt="xxxx" srcset="">
-      <h1>{{company.companyName}}</h1>      
-    </BaseCard>
+      <WidgetData width="100%">
+        <BaseCard
+          v-for="(company, index) in globalArray"
+          :key="index"
+          :company="company"
+        />
+      </WidgetData>
     </div>
-    <div class="row rowTwo">Zeile 2 Inhalt</div>
-    <div class="row rowThree">Zeile 3 Inhalt</div>
+    <div class="row rowTwo">
+      <WidgetData width="50%" />
+      <WidgetData width="50%" />
+    </div>
+    <div class="row rowThree">
+      <WidgetData width="33.33%" />
+      <WidgetData width="33.33%" />
+      <WidgetData width="33.33%" />
+    </div>
   </div>
 </template>
 
 <script>
 import { globalArray } from '@/helpers/globalArray';
 import BaseCard from './BaseCard.vue';
+import WidgetData from './WidgetData.vue';
 
 export default {
   name: 'ThreeRows',
-  components: {    
+  components: {
+    WidgetData,
     BaseCard,
   },
   data() {
     return {
-      globalArray
+      globalArray,
     };
-  }
+  },
 };
 </script>
 
 <style scoped>
 .three-rows-container {
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   justify-content: center;
   gap: 32px;
-  color: #FFFFFF;
+  color: #ffffff;
   top: 155px;
   position: absolute;
   width: 1240px;
 }
 
-.row{
+.row {
   display: flex;
   align-items: center;
-  justify-content: flex-start;  
+  justify-content: flex-start;
   gap: 24px;
   border-radius: 20px;
 }
 
 .rowOne {
-  height: 191px;  
+  height: 191px;
   background: #023a6233;
+  padding: 0 24px;
+  overflow: hidden;
 }
+
 .rowTwo {
-  height: 352px;  
-  background: #011F35;
+  height: 352px;
+  background: #011f35;
 }
+
 .rowThree {
   height: 296px;
-  background: #011F35;
+  background: #011f35;
 }
 </style>
