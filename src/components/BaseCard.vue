@@ -1,7 +1,9 @@
 <template>
   <div class="baseCard">
-    <img :src="company.icon" alt="Company Icon" />
-    <h1>{{ company.companyName }}</h1>
+    <div class="company">
+      <img :src="company.icon" alt="Company Icon" />
+      <h2>{{ company.companyName }}</h2>
+    </div>      
   </div>
 </template>
 
@@ -32,5 +34,27 @@ export default {
   min-width: 173px;
   max-width: 173px;
   height: 143px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+
+.company{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+
+  img{
+    height: 24px;
+    width: 24px;
+  }
+
+  h2{
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+}
+
 </style>
