@@ -2,7 +2,7 @@
   <div class="three-rows-container">
     <div class="row rowOne">
       <WidgetData width="100%">
-        <BaseCard
+        <CompanyCard
           v-for="(company, index) in globalArray"
           :key="index"
           :company="company"
@@ -23,14 +23,14 @@
 
 <script>
 import { globalArray } from '@/helpers/globalArray';
-import BaseCard from './BaseCard.vue';
+import CompanyCard from './CompanyCard.vue';
 import WidgetData from './WidgetData.vue';
 
 export default {
   name: 'ThreeRows',
   components: {
     WidgetData,
-    BaseCard,
+    CompanyCard,
   },
   data() {
     return {
