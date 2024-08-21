@@ -18,9 +18,15 @@
       </WidgetData>
     </div>
     <div class="row rowThree">
-      <WidgetData width="33.33%" />
-      <WidgetData width="33.33%" />
-      <WidgetData width="33.33%" />
+      <WidgetData width="33.33%" height="100%">
+        <NetIncome />
+      </WidgetData>
+      <WidgetData width="24.6%" height="100%">
+        <GrossMargin />
+      </WidgetData>
+      <WidgetData width="40.89%" height="100%">
+        <RevenueGrowth />
+      </WidgetData>
     </div>
   </div>
 </template>
@@ -31,6 +37,9 @@ import WidgetData from './WidgetData.vue';
 import CompanyCard from './CompanyCard.vue';
 import RevenueLastThreeYears from './RevenueLastThreeYears.vue';
 import RevenueBreakdown from './RevenueBreakdown.vue';
+import NetIncome from './NetIncome.vue';
+import GrossMargin from './GrossMargin.vue';
+import RevenueGrowth from './RevenueGrowth.vue';
 
 export default {
   name: 'ThreeRows',
@@ -39,6 +48,9 @@ export default {
     CompanyCard,
     RevenueLastThreeYears,
     RevenueBreakdown,
+    NetIncome,
+    GrossMargin,
+    RevenueGrowth,
   },
   data() {
     return {
@@ -81,6 +93,5 @@ export default {
 
 .rowThree {
   height: 296px;
-  background: #011f35;
 }
 </style>
