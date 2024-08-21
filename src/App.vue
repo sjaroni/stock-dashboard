@@ -6,19 +6,13 @@
 <script>
 import HeadLine from './components/HeadLine.vue';
 import ThreeRows from './components/ThreeRows.vue';
-import { stockService } from './services/stockService';
 
 export default {
   name: 'App',
   components: {
     HeadLine,
     ThreeRows,
-  },
-  async created() {
-    // this.data = await stockService.fetchData('$AAPL');
-    this.data = await stockService.getRevenue('$AAPL');
-    console.log('Loaded data', this.data);    
-  },
+  }
 };
 </script>
 
