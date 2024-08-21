@@ -10,8 +10,12 @@
       </WidgetData>
     </div>
     <div class="row rowTwo">
-      <WidgetData width="50%" />
-      <WidgetData width="50%" />
+      <WidgetData width="59.11%" height="100%">
+        <RevenueLastThreeYears />
+      </WidgetData>
+      <WidgetData width="40.89%" height="100%">
+        <RevenueBreakdown />
+      </WidgetData>
     </div>
     <div class="row rowThree">
       <WidgetData width="33.33%" />
@@ -23,14 +27,18 @@
 
 <script>
 import { globalArray } from '@/helpers/globalArray';
-import CompanyCard from './CompanyCard.vue';
 import WidgetData from './WidgetData.vue';
+import CompanyCard from './CompanyCard.vue';
+import RevenueLastThreeYears from './RevenueLastThreeYears.vue';
+import RevenueBreakdown from './RevenueBreakdown.vue';
 
 export default {
   name: 'ThreeRows',
   components: {
     WidgetData,
     CompanyCard,
+    RevenueLastThreeYears,
+    RevenueBreakdown,
   },
   data() {
     return {
@@ -69,7 +77,6 @@ export default {
 
 .rowTwo {
   height: 352px;
-  background: #011f35;
 }
 
 .rowThree {

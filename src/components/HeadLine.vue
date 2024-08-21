@@ -26,9 +26,7 @@ export default {
 .rectangle {
   width: 96px;
   height: 32px;
-  gap: 0px;
   border-radius: 0px 100px 100px 0px;
-  opacity: 0px;
   background: #39daff;
 }
 

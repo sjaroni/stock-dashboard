@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ width: width }" class="widget-container">
+  <div :style="{ width: width, height: height }" class="widget-container">
     <div class="widget-content">
       <slot></slot>
     </div>
@@ -10,7 +10,11 @@
 export default {
   props: {
     width: {
-      type: Number,
+      type: String,
+      required: true,
+    },
+    height: {
+      type: String,
       required: true,
     },
   },
@@ -19,13 +23,14 @@ export default {
 
 <style scoped>
 .widget-container {
-  box-sizing: border-box;
+  box-sizing: border-box;  
 }
 .widget-content {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: center;  
   gap: 24px;
   flex-direction: row;
+  height: 100%;
 }
 </style>
