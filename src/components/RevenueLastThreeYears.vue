@@ -10,116 +10,93 @@
 <script>
 import ChartHeadline from './ChartHeadline.vue';
 import { Line } from 'vue-chartjs';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { companyArray } from '@/helpers/companyArray.js'; 
-import { colorArray } from '@/helpers/colorArray.js'; 
-import { lastThreeYearsQuarters } from '@/helpers/quarterArray.js'; 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { companyArray } from '@/helpers/companyArray.js';
+import { colorArray } from '@/helpers/colorArray.js';
+import { lastThreeYearsQuarters } from '@/helpers/quarterArray.js';
 
-ChartJS.register(CategoryScale,  LinearScale,  PointElement,  LineElement,  Title,  Tooltip,  Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 export default {
   name: 'RevenueLastThreeYears',
-  // data() {
-  //   return {
-  //     title: 'Revenue last 3 years',
-  //     chartData: {
-  //       labels: lastThreeYearsQuarters,        
-  //         datasets: [
-  //         {
-  //           label: 'Revenue',
-  //           backgroundColor: colorArray,
-  //           borderColor: 'rgba(75, 192, 192, 1)',
-  //           borderWidth: 2,
-  //           pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-  //           pointBorderColor: '#fff',            
-  //           data: companyArray.map((item) => item.companyName),
-  //         }
-  //       ],
-  //     },
-  //     chartOptions: {
-  //       responsive: true,
-  //       maintainAspectRatio: false,
-  //       plugins: {
-  //         legend: {
-  //           position: 'right',
-  //           labels: {
-  //             generateLabels: function (chart) {
-  //               const dataset = chart.data.datasets[0];
-  //               return chart.data.labels.map((label, i) => {
-  //                 const value = dataset.data[i];
-  //                 return {
-  //                   text: `${label}: ${value}`,
-  //                   fillStyle: dataset.backgroundColor[i],
-  //                   strokeStyle: '#FFFFFF',
-  //                   fontColor: '#FFFFFF',
-  //                   font: {
-  //                     family: 'Rubik',
-  //                     size: 10,
-  //                     weight: '400',
-  //                     lineHeight: 1.185,
-  //                   },
-  //                   textAlign: 'left',
-  //                   boxWidth: 20,
-  //                   padding: 20,
-  //                   hidden: false,
-  //                   index: i,
-  //                 };
-  //               });
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //   };
-  // },
   data() {
     return {
-      title: 'Revenue last 3 years',
+      title: 'Revenue last 3 years',      
       chartData: {
-        labels: lastThreeYearsQuarters, // Quartale auf der X-Achse
-        datasets: [
-          {
-            label: 'Revenue',
-            backgroundColor: colorArray,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-            pointBorderColor: '#fff',
-            data: companyArray.map((item) => item.revenueRow) // Beispiel-Daten für Y-Achse, angepasst auf deinen Use-Case
-          }
-        ]
+        labels: lastThreeYearsQuarters,
+        datasets: companyArray.map((company, index) => ({
+          label: company.companyName,
+          backgroundColor: colorArray[index],
+          borderColor: colorArray[index],
+          data: Array(15).fill(10 + index), // Beispielhafte Daten von 10 bis 16
+          pointRadius: 0,
+          pointHoverRadius: 0
+        }))
       },
       chartOptions: {
         responsive: true,
         plugins: {
           legend: {
             display: true,
+            position: 'right',
             labels: {
               color: '#FFFFFF',
-            }
+            },
           },
         },
         scales: {
           x: {
             title: {
               display: true,
-              color: '#FFFFFF'
+              color: '#FFFFFF',
             },
             ticks: {
-              color: '#FFFFFF'
-            }
+              color: '#FFFFFF',
+              font: {
+                family: 'Rubik',
+                size: 8,
+                weight: '400',
+                lineHeight: 1.185,
+              },
+              align: 'right',
+              rotation: 17.04,
+            },
+            grid: {
+              color: '#FFFFFF',
+            },
           },
           y: {
             title: {
               display: true,
-              color: '#FFFFFF'
+              color: '#FFFFFF',
             },
             ticks: {
-              color: '#FFFFFF'
-            }
-          }
-        }
-      }
+              color: '#FFFFFF',
+              stepSize: 30,
+            },
+            grid: {
+              color: '#FFFFFF',
+            },
+          },
+        },
+      },
     };
   },
   components: {
@@ -150,7 +127,7 @@ export default {
   height: 100%;
 }
 
-.currency {  
+.currency {
   position: absolute;
   right: 0;
   bottom: 8px;
