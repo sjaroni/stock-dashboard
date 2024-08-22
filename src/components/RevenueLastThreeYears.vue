@@ -21,7 +21,6 @@ import {
   Legend,
 } from 'chart.js';
 import { companyArray } from '@/helpers/companyArray.js';
-import { colorArray } from '@/helpers/colorArray.js';
 import { lastThreeYearsQuarters } from '@/helpers/quarterArray.js';
 
 ChartJS.register(
@@ -43,8 +42,8 @@ export default {
         labels: lastThreeYearsQuarters,
         datasets: companyArray.map((company, index) => ({
           label: company.companyName,
-          backgroundColor: colorArray[index],
-          borderColor: colorArray[index],
+          backgroundColor: company.color,
+          borderColor: company.color,
           data: Array(15).fill(10 + index), // Beispielhafte Daten von 10 bis 16
           pointRadius: 0,
           pointHoverRadius: 0

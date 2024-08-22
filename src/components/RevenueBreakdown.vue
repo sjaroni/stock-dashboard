@@ -13,7 +13,6 @@ import ChartHeadline from './ChartHeadline.vue';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { companyArray } from '@/helpers/companyArray.js';
-import { colorArray } from '@/helpers/colorArray.js';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
@@ -26,7 +25,7 @@ export default {
         labels: companyArray.map((item) => item.companyName),
         datasets: [
           {
-            backgroundColor: colorArray,
+            backgroundColor: companyArray.map((item) => item.color),
             data: [8.7, 5.4, 14.7, 17, 17.7, 11.5, 9.1],
           },
         ],
