@@ -7,9 +7,9 @@
       <h2>{{ company.companyName }}</h2>
     </div>
     <div class="revenue">
-      <div class="text">Revenue Q1 2024</div>
+      <div class="text">Revenue {{ displayedQuarterName }}</div>
       <div class="currentValues">
-        <div class="revenueValue">38.52</div>
+        <div class="revenueValue">{{ displayedRevenueValue }}</div>
         <div class="right">
           <div class="top">
             <div class="fluctuation">+1.06</div>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { stockService } from '@/services/stockService';
+
 export default {
   props: {
     company: {
@@ -34,11 +36,118 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      quarterName: null,
+      lastValue: null,
+      revenueValue: null,
+      revenueQuarterArr: {},
+      revenueValueArr: {},
+    };
+  },
   computed: {
-    formattedCompanyName() {
-      return this.company.companyName.toUpperCase();
+    displayedQuarterName() {
+      return this.quarterName || 'load...';
+    },
+    displayedRevenueValue() {
+      return this.revenueValue || 'load...';
     },
   },
+
+  async created() {
+    this.revenueQuarterArr = await stockService.getRevenueQuarterName(`${this.company.sheetName}`, this.company['revenueQuarter']);
+    this.revenueValueArr = await stockService.getRevenue(`${this.company.sheetName}`, this.company['revenueRow']);
+    // this.revenueQuarterArr = {
+    //   '': '21Q1',
+    //   'Mar 21': '21Q2',
+    //   'Jun 21': '21Q3',
+    //   'Sep 21': '21Q4',
+    //   'Dec 21': '22Q1',
+    //   'Mar 22': '22Q2',
+    //   'Jun 22': '22Q3',
+    //   'Sep 22': '22Q4',
+    //   'Dec 22': '23Q1',
+    //   'Mar 23': '23Q2',
+    //   '3 Aug 23': '23Q3',
+    //   '2 Nov 23': '23Q4',
+    //   '1 Feb 24': '24Q1',
+    //   '2 Mai 24': '24Q2',
+    //   '1 Aug 24': '24Q3',
+    // };
+
+    // this.revenueValueArr = {
+    //   '': '95,678',
+    //   'Mar 21': '72,683',
+    //   'Jun 21': '63,948',
+    //   'Sep 21': '65,083',
+    //   'Dec 21': '104,429',
+    //   'Mar 22': '77,457',
+    //   'Jun 22': '63,355',
+    //   'Sep 22': '70,958',
+    //   'Dec 22': '96,388',
+    //   'Mar 23': '73,929',
+    //   '3 Aug 23': '60,584',
+    //   '2 Nov 23': '67,184',
+    //   '1 Feb 24': '96,458',
+    //   '2 Mai 24': '66,886',
+    //   '1 Aug 24': '61,564',
+    // };
+
+    // Bestimme den letzten Wert in der revenueQuarter
+    this.quarterName =
+      this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+    this.revenueValue =
+      this.revenueValueArr[Object.keys(this.revenueValueArr).pop()];
+
+    // Extrahiere und sortiere die Schlüssel des Objekts
+    const keys = Object.keys(this.revenueValueArr);
+
+    // Greife auf die letzten beiden Schlüssel zu und hole die entsprechenden Werte
+    const lastTwoKeys = keys.slice(-2);
+    this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
+
+    // Optional: Wenn du die Werte getrennt speichern möchtest
+    this.secondLastValue = this.lastTwoValues[0];
+    this.lastValue = this.lastTwoValues[1];
+
+    console.log(this.secondLastValue);
+    console.log(this.lastValue);
+  },
+
+  //   async created() {
+  //         this.revenueValueArr = {
+  //     "": "95,678",
+  //     "Mar 21": "72,683",
+  //     "Jun 21": "63,948",
+  //     "Sep 21": "65,083",
+  //     "Dec 21": "104,429",
+  //     "Mar 22": "77,457",
+  //     "Jun 22": "63,355",
+  //     "Sep 22": "70,958",
+  //     "Dec 22": "96,388",
+  //     "Mar 23": "73,929",
+  //     "3 Aug 23": "60,584",
+  //     "2 Nov 23": "67,184",
+  //     "1 Feb 24": "96,458",
+  //     "2 Mai 24": "66,886",
+  //     "1 Aug 24": "61,564"
+  // };
+
+  //     // Extrahiere und sortiere die Schlüssel des Objekts
+  //     const keys = Object.keys(this.revenueValueArr);
+
+  //     // Greife auf die letzten beiden Schlüssel zu und hole die entsprechenden Werte
+  //     const lastTwoKeys = keys.slice(-2);
+  //     this.lastTwoValues = lastTwoKeys.map(key => this.revenueValueArr[key]);
+
+  //     // Optional: Wenn du die Werte getrennt speichern möchtest
+  //     this.secondLastValue = this.lastTwoValues[0];
+  //     this.lastValue = this.lastTwoValues[1];
+
+  //     console.log(this.secondLastValue);
+  //     console.log(this.lastValue);
+
+  //   }
 };
 </script>
 
@@ -52,9 +161,9 @@ Arrow Down &#8595; -->
   padding: 20px 24px;
   border-radius: 16px;
   color: #ffffff;
-  width: 173px;
-  min-width: 173px;
-  max-width: 173px;
+  width: 187px;
+  min-width: 187px;
+  max-width: 187px;
   height: 143px;
   display: flex;
   flex-direction: column;
@@ -104,7 +213,7 @@ Arrow Down &#8595; -->
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 4px;    
+    gap: 4px;
     width: 100%;
     height: 40px;
 

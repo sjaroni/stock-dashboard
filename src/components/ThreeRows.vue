@@ -1,7 +1,7 @@
 <template>
   <div class="three-rows-container">
     <div class="row rowOne">
-      <WidgetData width="100%">
+      <WidgetData width="100%" height="100%">
         <CompanyCard
           v-for="(company, index) in globalArray"
           :key="index"

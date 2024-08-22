@@ -34,4 +34,9 @@ export default {
     padding: 20px 32px;
     border-radius: 16px;
   }
+
+  .chart{
+    height: 100%;
+    background-color: blue;
+  }
 </style>
