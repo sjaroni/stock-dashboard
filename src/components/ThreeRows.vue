@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { globalArray } from '@/helpers/globalArray';
+import { globalArray } from '@/helpers/companyArray';
 import WidgetData from './WidgetData.vue';
 // import CompanyCard from './CompanyCard.vue';
 import RevenueLastThreeYears from './RevenueLastThreeYears.vue';

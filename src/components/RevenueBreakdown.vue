@@ -12,8 +12,8 @@
 import ChartHeadline from './ChartHeadline.vue';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
-import { globalArray, colorArray } from '@/helpers/globalArray.js'; 
-
+import { companyArray } from '@/helpers/companyArray.js';
+import { colorArray } from '@/helpers/colorArray.js';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
@@ -23,7 +23,7 @@ export default {
     return {
       title: 'Revenue Breakdown Magnificent Seven',
       chartData: {
-        labels: globalArray.map(item => item.companyName),
+        labels: companyArray.map((item) => item.companyName),
         datasets: [
           {
             backgroundColor: colorArray,
@@ -95,7 +95,7 @@ export default {
   height: 100%;
 }
 
-.currency {  
+.currency {
   position: absolute;
   right: 0;
   bottom: 8px;
