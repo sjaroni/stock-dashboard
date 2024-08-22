@@ -1,14 +1,14 @@
 <template>
   <div class="three-rows-container">
-    <!-- <div class="row rowOne">
+    <div class="row rowOne">
       <WidgetData width="100%" height="100%">
         <CompanyCard
-          v-for="(company, index) in globalArray"
+          v-for="(company, index) in companyArray"
           :key="index"
           :company="company"
         />
       </WidgetData>
-    </div> -->
+    </div>
     <div class="row rowTwo">
       <WidgetData width="59.11%" height="100%">
         <RevenueLastThreeYears />
@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import { globalArray } from '@/helpers/companyArray';
+import { companyArray } from '@/helpers/companyArray';
 import WidgetData from './WidgetData.vue';
-// import CompanyCard from './CompanyCard.vue';
+import CompanyCard from './CompanyCard.vue';
 import RevenueLastThreeYears from './RevenueLastThreeYears.vue';
 import RevenueBreakdown from './RevenueBreakdown.vue';
 import NetIncome from './NetIncome.vue';
@@ -45,7 +45,7 @@ export default {
   name: 'ThreeRows',
   components: {
     WidgetData,
-    // CompanyCard,
+    CompanyCard,
     RevenueLastThreeYears,
     RevenueBreakdown,
     NetIncome,
@@ -54,7 +54,7 @@ export default {
   },
   data() {
     return {
-      globalArray,
+      companyArray,
     };
   },
 };

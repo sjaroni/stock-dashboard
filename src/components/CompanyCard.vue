@@ -7,16 +7,16 @@
       <h2>{{ company.companyName }}</h2>
     </div>
     <div class="revenue">
-      <div class="text">Revenue {{ displayedQuarterName }}</div>
+      <div class="text">Revenue {{ normalizedQuarter }}</div>
       <div class="currentValues">
         <div class="revenueValue">{{ displayedRevenueValue }}</div>
         <div class="right">
-          <div class="top">
-            <div class="fluctuation">+1.06</div>
-            <div class="icon">&#8593;</div>
+          <div class="top" :class="getClassBasedOnValue">
+            <div class="fluctuation">{{ formattedFluctuation }}</div>
+            <div class="icon" :class="getIconClass" v-html="getIcon"></div>
           </div>
-          <div class="bottom">
-            <div class="percentage">2.83</div>
+          <div class="bottom" :class="getClassBasedOnValue">
+            <div class="percentage">{{ displayFluctuationPercentage }}</div>
             <div class="icon">%</div>
           </div>
         </div>
@@ -28,6 +28,8 @@
 
 <script>
 import { stockService } from '@/services/stockService';
+import { normalizeQuarterFormat } from '@/helpers/formatQuarter';
+
 
 export default {
   props: {
@@ -41,8 +43,11 @@ export default {
       quarterName: null,
       lastValue: null,
       revenueValue: null,
+      fluctuationValue: null,
+      fluctuationPercentage: null,
       revenueQuarterArr: {},
       revenueValueArr: {},
+      rawQuarter: ''
     };
   },
   computed: {
@@ -52,8 +57,48 @@ export default {
     displayedRevenueValue() {
       return this.revenueValue || 'load...';
     },
+    displayFluctuation() {
+      return this.fluctuationValue || 'load...';
+    },
+    displayFluctuationPercentage() {
+      return this.fluctuationPercentage || 'load...';
+    },
+    getClassBasedOnValue() {
+      if (this.displayFluctuation > 0) {
+        return 'positive';
+      } else if (this.displayFluctuation < 0) {
+        return 'negative';
+      } else {
+        return 'neutral';
+      }
+    },
+    getIconClass() {
+      if (this.displayFluctuation > 0) {
+        return 'icon-positive';
+      } else if (this.displayFluctuation < 0) {
+        return 'icon-negative';
+      } else {
+        return '';
+      }
+    },
+    getIcon() {
+      if (this.displayFluctuation > 0) {
+        return '&#8593;';
+      } else if (this.displayFluctuation < 0) {
+        return '&#8595;';
+      } else {
+        return '';
+      }
+    },
+    formattedFluctuation() {      
+      return this.displayFluctuation > 0
+        ? `+${this.displayFluctuation}`
+        : this.displayFluctuation;
+    },
+    normalizedQuarter() {
+      return normalizeQuarterFormat(this.rawQuarter);
+    },
   },
-
   async created() {
     this.revenueQuarterArr = await stockService.getRevenueQuarterName(`${this.company.sheetName}`, this.company['revenueQuarter']);
     this.revenueValueArr = await stockService.getRevenue(`${this.company.sheetName}`, this.company['revenueRow']);
@@ -93,66 +138,26 @@ export default {
     //   '1 Aug 24': '61,564',
     // };
 
-    // Bestimme den letzten Wert in der revenueQuarter
     this.quarterName =
       this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+    this.rawQuarter = this.quarterName;
     this.revenueValue =
       this.revenueValueArr[Object.keys(this.revenueValueArr).pop()];
 
-    // Extrahiere und sortiere die Schlüssel des Objekts
     const keys = Object.keys(this.revenueValueArr);
-
-    // Greife auf die letzten beiden Schlüssel zu und hole die entsprechenden Werte
     const lastTwoKeys = keys.slice(-2);
     this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
-
-    // Optional: Wenn du die Werte getrennt speichern möchtest
-    this.secondLastValue = this.lastTwoValues[0];
-    this.lastValue = this.lastTwoValues[1];
-
-    console.log(this.secondLastValue);
-    console.log(this.lastValue);
+    this.secondLastValue = this.lastTwoValues[0].toString().replace(',', '.');
+    this.secondLastValue = 60;
+    this.lastValue = this.lastTwoValues[1].toString().replace(',', '.');
+    this.fluctuationValue = this.lastValue - this.secondLastValue;
+    this.fluctuationValue = parseFloat(this.fluctuationValue.toFixed(2));
+    this.fluctuationPercentage = parseFloat(
+      (this.fluctuationValue / this.secondLastValue) * 100,
+    ).toFixed(2);
   },
-
-  //   async created() {
-  //         this.revenueValueArr = {
-  //     "": "95,678",
-  //     "Mar 21": "72,683",
-  //     "Jun 21": "63,948",
-  //     "Sep 21": "65,083",
-  //     "Dec 21": "104,429",
-  //     "Mar 22": "77,457",
-  //     "Jun 22": "63,355",
-  //     "Sep 22": "70,958",
-  //     "Dec 22": "96,388",
-  //     "Mar 23": "73,929",
-  //     "3 Aug 23": "60,584",
-  //     "2 Nov 23": "67,184",
-  //     "1 Feb 24": "96,458",
-  //     "2 Mai 24": "66,886",
-  //     "1 Aug 24": "61,564"
-  // };
-
-  //     // Extrahiere und sortiere die Schlüssel des Objekts
-  //     const keys = Object.keys(this.revenueValueArr);
-
-  //     // Greife auf die letzten beiden Schlüssel zu und hole die entsprechenden Werte
-  //     const lastTwoKeys = keys.slice(-2);
-  //     this.lastTwoValues = lastTwoKeys.map(key => this.revenueValueArr[key]);
-
-  //     // Optional: Wenn du die Werte getrennt speichern möchtest
-  //     this.secondLastValue = this.lastTwoValues[0];
-  //     this.lastValue = this.lastTwoValues[1];
-
-  //     console.log(this.secondLastValue);
-  //     console.log(this.lastValue);
-
-  //   }
 };
 </script>
-
-<!-- Arrow Up &#8593;
-Arrow Down &#8595; -->
 
 <style scoped>
 .companyCard {
@@ -230,9 +235,17 @@ Arrow Down &#8595; -->
       font-weight: 500;
       line-height: 15.41px;
       text-align: left;
-      color: #3ba752;
       width: 54px;
     }
+
+    .positive {
+      color: #3ba752;
+    }
+
+    .negative {
+      color: #c41c1c;
+    }
+
     .top,
     .bottom {
       display: flex;
@@ -240,7 +253,9 @@ Arrow Down &#8595; -->
       justify-content: flex-end;
     }
 
-    .fluctuation,
+    .fluctuation {
+      text-align: left;
+    }
     .percentage {
       text-align: right;
     }
