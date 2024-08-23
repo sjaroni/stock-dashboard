@@ -13,11 +13,17 @@ import ChartHeadline from './ChartHeadline.vue';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { companyArray } from '@/helpers/companyArray.js';
+// import { stockService } from '@/services/stockService';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
 export default {
   name: 'RevenueBreakdown',
+  revenueSums: [],
+  components: {
+    ChartHeadline,
+    Doughnut,
+  },
   data() {
     return {
       title: 'Revenue Breakdown Magnificent Seven',
@@ -65,11 +71,42 @@ export default {
         },
       },
     };
-  },
-  components: {
-    ChartHeadline,
-    Doughnut,
-  },
+  },  
+  async created() {
+  this.revenueValueArr = {
+    '': '95,678',
+    'Mar 21': '72,683',
+    'Jun 21': '63,948',
+    'Sep 21': '65,083',
+    'Dec 21': '104,429',
+    'Mar 22': '77,457',
+    'Jun 22': '63,355',
+    'Sep 22': '70,958',
+    'Dec 22': '96,388',
+    'Mar 23': '73,929',
+    '3 Aug 23': '60,584',
+    '2 Nov 23': '67,184',
+    '1 Feb 24': '96,458',
+    '2 Mai 24': '66,886',
+    '1 Aug 24': '61,564',
+  };
+
+  // Holen der letzten 4 Schlüssel
+  const keys = Object.keys(this.revenueValueArr);
+  const lastFourKeys = keys.slice(-4);
+
+  // Konvertieren der letzten 4 Werte in Zahlen und Summieren
+  this.lastFourValues = lastFourKeys.map((key) => {
+    // Ersetzen von Kommas durch Punkte und Konvertieren in eine Zahl
+    return parseFloat(this.revenueValueArr[key].replace(',', '.'));
+  });
+
+  // Berechnen der Summe der letzten 4 Werte
+  this.sumLastFourValues = this.lastFourValues.reduce((sum, value) => sum + (value || 0), 0);
+
+  console.log('Last Four Values:', this.lastFourValues);
+  console.log('Sum of Last Four Values:', this.sumLastFourValues);
+},
 };
 </script>
 
