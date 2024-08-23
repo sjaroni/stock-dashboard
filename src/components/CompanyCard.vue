@@ -148,7 +148,6 @@ export default {
     const lastTwoKeys = keys.slice(-2);
     this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
     this.secondLastValue = this.lastTwoValues[0].toString().replace(',', '.');
-    this.secondLastValue = 60;
     this.lastValue = this.lastTwoValues[1].toString().replace(',', '.');
     this.fluctuationValue = this.lastValue - this.secondLastValue;
     this.fluctuationValue = parseFloat(this.fluctuationValue.toFixed(2));
