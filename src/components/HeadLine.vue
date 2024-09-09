@@ -4,17 +4,16 @@
     <div class="text">
       The Magnificent Seven Companies
       <div class="info">
-        <img src="../assets/icons/info.svg" alt="Info Icon" />
-        <div id="info-text">
-          <div id="close">X</div>
-          <div class="info-text-content">
-            Die Kurse spiegeln nicht alle Märkte wider sind möglicherweise bis
-            zu 20 Minuten zeitverzögert. Die Angaben werden ohne Mängelgewähr
-            zur Verfügung gestellt. Sie dienen nur zur Information und sind
-            nicht zu Handels- oder Beratungszwecken zu verwenden.
-          </div>
-        </div>
+        <img @click="toggleInfoBox" src="../assets/icons/info.svg" alt="Info Icon" />
       </div>
+    </div>
+  </div>
+  <div id="info-text" class="d-none">
+    <div id="close" @click="toggleInfoBox">X</div>
+    <div class="info-text-content">
+      Prices do not reflect all markets and may be delayed by up to 20 minutes.
+      The information is provided “as is”. They are for informational purposes
+      only and should not be used for trading or advisory purposes.
     </div>
   </div>
 </template>
@@ -22,6 +21,14 @@
 <script>
 export default {
   name: 'HeadLine',
+  methods: {
+    toggleInfoBox() {      
+      const infoTextElement = document.getElementById("info-text");
+      if (infoTextElement) {
+        infoTextElement.classList.toggle("d-none");
+      }
+    }
+  }
 };
 </script>
 
@@ -54,10 +61,10 @@ export default {
   align-items: center;
   width: 100%;
 
-  .info {    
+  .info {
     text-align: right;
     position: relative;
-    width: 100%;
+    width: 20%;
     font-size: 20px;
     font-weight: 600;
     line-height: 20px;
@@ -72,27 +79,34 @@ export default {
         cursor: pointer;
       }
     }
-
-    #info-text {
-      position: absolute;
-      left: 50%;
-      transform: translate(-75%, 0);
-      height: 20vh;
-      width: 50%;
-      background: #39daff;
-      border-radius: 16px;
-      z-index: 3;
-      padding: 40px;
-      text-align: center;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-      gap: 32px;
-
-      #close {
-        text-align: right !important;
-      }
-    }
   }
+}
+
+#info-text {
+  color: #f9f9f9;
+  position: absolute;
+  top: 20vh;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 20vh;
+  width: 50%;
+  background: #39daff;
+  border-radius: 16px;
+  z-index: 3;
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 32px;
+
+  #close {
+    text-align: right !important;
+    cursor: pointer;
+  }
+}
+
+.d-none {
+  display: none !important;
 }
 </style>
