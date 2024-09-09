@@ -9,7 +9,7 @@
     </div>
   </div>
   <div id="info-text" class="d-none">
-    <div id="close" @click="toggleInfoBox">X</div>
+    <div id="close" @click="toggleInfoBox">Close</div>
     <div class="info-text-content">
       Prices do not reflect all markets and may be delayed by up to 20 minutes.
       The information is provided “as is”. They are for informational purposes
@@ -88,9 +88,9 @@ export default {
   top: 20vh;
   left: 50%;
   transform: translate(-50%, 0);
-  height: 20vh;
-  width: 50%;
-  background: #39daff;
+  min-height: 10vh;
+  min-width: 20%;
+  background: #196F8C;
   border-radius: 16px;
   z-index: 3;
   padding: 40px;
@@ -103,6 +103,9 @@ export default {
   #close {
     text-align: right !important;
     cursor: pointer;
+    &:hover {
+      font-weight: 600;
+    }
   }
 }
 
