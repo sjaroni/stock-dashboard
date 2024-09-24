@@ -90,7 +90,7 @@ export default {
   transform: translate(-50%, 0);
   min-height: 10vh;
   min-width: 20%;
-  background: #196F8C;
+  background: #39DAFF;
   border-radius: 16px;
   z-index: 3;
   padding: 40px;

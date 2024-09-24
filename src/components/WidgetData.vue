@@ -23,7 +23,8 @@ export default {
 
 <style scoped>
 .widget-container {
-  box-sizing: border-box;  
+  box-sizing: border-box;
+  overflow-x: auto;
 }
 .widget-content {
   display: flex;
