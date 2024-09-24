@@ -6,12 +6,17 @@
 <script>
 import HeadLine from './components/HeadLine.vue';
 import ThreeRows from './components/ThreeRows.vue';
+import { loadData } from '@/services/loadData';
 
 export default {
   name: 'App',
   components: {
     HeadLine,
     ThreeRows,
+  },
+  beforeCreate(){
+    // console.log('2 beforeCreate');
+    loadData.checkLastData();
   }
 };
 </script>
