@@ -14,8 +14,7 @@ export default {
     HeadLine,
     ThreeRows,
   },
-  beforeCreate(){
-    // console.log('2 beforeCreate');
+  beforeCreate(){    
     loadData.checkLastData();
   }
 };
