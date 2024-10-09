@@ -8,96 +8,64 @@ class LoadData {
 
   checkLastData() {
     let currentTime = new Date().getTime();
-    let timeFromStorage = this.getLocalStorage();
+    let timeFromStorage = this.getFromLocalStorage();
     let diffMiliseconds = currentTime - timeFromStorage;
     let diffMinutes = diffMiliseconds / (1000 * 60);
     let roundedMinutes = diffMinutes.toFixed();
     if (roundedMinutes > 15) {
-      console.log('update data from api');
-      this.setLocalStorage();
+      this.updateLocalStorage();
     }
-
-    this.updateCompanies();
-    // this.showData();
   }
 
-  // showData() {
-  //   for (let index = 0; index < companyArray.length; index++) {
-  //     const element = companyArray[index];
-  //     console.log(element);
-  //   }
-  // }
+  saveToLocalStorage(key, value) {
+    localStorage.setItem(key, value);
+  }
 
-  getLocalStorage() {
+  getFromLocalStorage() {
     let lastStockData = localStorage.getItem('lastStockData');
     if (lastStockData) {
       let element = JSON.parse(lastStockData);
       return element;
     } else {
-      console.log('1st time load data from api');
-      this.setLocalStorage();
+      this.updateLocalStorage();
     }
   }
 
-  setLocalStorage() {
-    localStorage.setItem('lastStockData', new Date().getTime());
-    this.updateCompaniesArrayInLocalStorage();
+  updateLocalStorage() {
+    this.saveToLocalStorage('lastStockData', new Date().getTime());
+    this.addCompaniesDataInLocalStorage();
     this.checkLastData();
   }
 
-  async updateCompaniesArrayInLocalStorage() {
-    await this.removeOldCampaniesDataFromLocalStorage();
-    await this.updateCompanies();
-    // await this.updateCompaniesRevenue();
-    // await this.updateCompaniesNetIncome();
-    // await this.updateCompaniesGrossMargin();
+  async addCompaniesDataInLocalStorage() {
+    await this.removeCampaniesDataFromLocalStorage();
+    await this.updateCompaniesData();
   }
 
-  async removeOldCampaniesDataFromLocalStorage() {
+  async removeCampaniesDataFromLocalStorage() {
     localStorage.removeItem('companiesData');
   }
 
-  async updateCompanies() {
-    
+  async updateCompaniesData() {
     for (let index = 0; index < companyArray.length; index++) {
       const element = companyArray[index];
-      // console.log(element.sheetName);
-
 
       let singleCompanyData = {
         companySheetName: element.sheetName,
-        companyRevenue: {
-          a: element.revenueRow,
-          b: 1,
-        },
-        companyNetIncome: {
-          c: element.netIncomeRow,
-          d: 1,
-        },
-        companyGrossMargin: {
-          e: element.grossMarginRow,
-          f: 1,
-        },
-      }
+        companyData: await this.updateCompaniesDataFromAPI(element.sheetName),
+      };
 
       allCompaniesDataArray.push(singleCompanyData);
     }
-        
-    localStorage.setItem('companiesData', JSON.stringify(allCompaniesDataArray));
-    console.log(allCompaniesDataArray);
+
+    this.saveToLocalStorage(
+      'companiesData',
+      JSON.stringify(allCompaniesDataArray),
+    );
   }
 
-  async updateCompaniesRevenue() {
-    await stockService.getRevenueQuarterName(`${this.company.sheetName}`, this.company['revenueQuarter']);
-    console.log('2updateCompaniesRevenue');
-  }
-
-  async updateCompaniesNetIncome() {
-    console.log('3updateCompaniesNetIncome');
-  }
-
-  async updateCompaniesGrossMargin() {
-    console.log('4updateCompaniesGrossMargin');
+  async updateCompaniesDataFromAPI(sheetName) {
+    return await stockService.getAllCompanyData(sheetName);
   }
 }
 
