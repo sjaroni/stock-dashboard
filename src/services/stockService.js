@@ -6,16 +6,6 @@ class StockService {
     });
   }
 
-  // async fetchData(sheetName, row) {
-  //   try {
-  //     const response = await this.apiClient.get(`?sheet=${sheetName}&offset=${row}&single_object=true`);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //     return [];
-  //   }
-  // }
-
   async fetchCompanyData(sheetName) {
     try {
       const response = await this.apiClient.get(`?sheet=${sheetName}`);
@@ -30,16 +20,6 @@ class StockService {
     const data = this.fetchCompanyData(sheetName);
     return data;
   }
-
-  // async getRevenueQuarterName(sheetName, row){
-  //   const data = this.fetchData(sheetName, row);    
-  //   return data;
-  // }
-
-  // async getRevenue(sheetName, row){
-  //   const data = this.fetchData(sheetName, row);    
-  //   return data;
-  // }
 }
 
 export const stockService = new StockService();

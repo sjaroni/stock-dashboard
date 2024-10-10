@@ -1,10 +1,11 @@
 import { companyArray } from '@/helpers/companyArray';
 import { stockService } from './stockService';
 
-let allCompaniesDataArray = [];
-
 class LoadData {
   constructor() {}
+
+  allCompaniesDataArray = [];
+  allCompaniesDataJSON = [];
 
   checkLastData() {
     let currentTime = new Date().getTime();
@@ -12,23 +13,43 @@ class LoadData {
     let diffMiliseconds = currentTime - timeFromStorage;
     let diffMinutes = diffMiliseconds / (1000 * 60);
     let roundedMinutes = diffMinutes.toFixed();
-    if (roundedMinutes > 15) {
+    if (roundedMinutes > 20) {
       this.updateLocalStorage();
     }
+    this.getCompanyDataFromLocalStorage();
   }
 
   saveToLocalStorage(key, value) {
     localStorage.setItem(key, value);
   }
 
-  getLastStockDataTimestampFromLocalStorage() {
+  async getLastStockDataTimestampFromLocalStorage() {
     let lastStockData = localStorage.getItem('lastStockData');
     if (lastStockData) {
-      let lastStockDataTimestamp = JSON.parse(lastStockData);
+      let lastStockDataTimestamp = await JSON.parse(lastStockData);
       return lastStockDataTimestamp;
     } else {
       this.updateLocalStorage();
     }
+  }
+
+  async getCompanyDataFromLocalStorage() {
+    let companiesData = localStorage.getItem('companiesData');
+    if (companiesData) {
+      this.allCompaniesDataJSON = await JSON.parse(companiesData);
+      this.getFullCompanyData();
+    }
+  }
+
+  async getArrayByName(name) {
+    return this.allCompaniesDataJSON      
+      .filter(item => Object.prototype.hasOwnProperty.call(item, name))
+        .map(item => item[name]);
+  }
+
+  async getFullCompanyData() {
+    const result = await this.getArrayByName('$META');
+    console.log(result);
   }
 
   updateLocalStorage() {
@@ -48,18 +69,20 @@ class LoadData {
 
   async updateCompaniesData() {
     for (let index = 0; index < companyArray.length; index++) {
-      const element = companyArray[index];      
+      const element = companyArray[index];
 
       let singleCompanyData = {
-        [element.sheetName]: await this.updateCompaniesDataFromAPI(element.sheetName),
+        '[element.sheetName]': await this.updateCompaniesDataFromAPI(
+          element.sheetName,
+        ),
       };
 
-      allCompaniesDataArray.push(singleCompanyData);
+      this.allCompaniesDataArray.push(singleCompanyData);
     }
 
     this.saveToLocalStorage(
       'companiesData',
-      JSON.stringify(allCompaniesDataArray),
+      JSON.stringify(this.allCompaniesDataArray),
     );
   }
 

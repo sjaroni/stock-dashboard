@@ -28,6 +28,7 @@
 
 <script>
 // import { stockService } from '@/services/stockService';
+// import { loadData } from '@/services/loadData';
 import { normalizeQuarterFormat } from '@/helpers/formatQuarter';
 
 export default {
@@ -101,6 +102,11 @@ export default {
   async created() {
     // this.revenueQuarterArr = await stockService.getRevenueQuarterName(`${this.company.sheetName}`, this.company['revenueQuarter']);
     // this.revenueValueArr = await stockService.getRevenue(`${this.company.sheetName}`, this.company['revenueRow']);
+
+    //let test = await loadData.getCompanyDataFromLocalStorage(`${this.company.sheetName}`, this.company['revenueQuarter']);
+    // console.log(await loadData.getCompanyDataFromLocalStorage());
+    
+
     this.revenueQuarterArr = {
       '': '21Q1',
       'Mar 21': '21Q2',
