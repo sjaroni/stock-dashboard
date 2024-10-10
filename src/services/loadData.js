@@ -48,11 +48,10 @@ class LoadData {
 
   async updateCompaniesData() {
     for (let index = 0; index < companyArray.length; index++) {
-      const element = companyArray[index];
+      const element = companyArray[index];      
 
       let singleCompanyData = {
-        companySheetName: element.sheetName,
-        companyData: await this.updateCompaniesDataFromAPI(element.sheetName),
+        [element.sheetName]: await this.updateCompaniesDataFromAPI(element.sheetName),
       };
 
       allCompaniesDataArray.push(singleCompanyData);
