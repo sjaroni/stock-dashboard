@@ -28,7 +28,7 @@
 
 <script>
 // import { stockService } from '@/services/stockService';
-// import { loadData } from '@/services/loadData';
+import { loadData } from '@/services/loadData';
 import { normalizeQuarterFormat } from '@/helpers/formatQuarter';
 
 export default {
@@ -100,48 +100,16 @@ export default {
     },
   },
   async created() {
-    // this.revenueQuarterArr = await stockService.getRevenueQuarterName(`${this.company.sheetName}`, this.company['revenueQuarter']);
-    // this.revenueValueArr = await stockService.getRevenue(`${this.company.sheetName}`, this.company['revenueRow']);
+    this.revenueQuarterArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueQuarter']);
+    this.revenueValueArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueRow']);
 
-    //let test = await loadData.getCompanyDataFromLocalStorage(`${this.company.sheetName}`, this.company['revenueQuarter']);
-    // console.log(await loadData.getCompanyDataFromLocalStorage());
-    
 
-    this.revenueQuarterArr = {
-      '': '21Q1',
-      'Mar 21': '21Q2',
-      'Jun 21': '21Q3',
-      'Sep 21': '21Q4',
-      'Dec 21': '22Q1',
-      'Mar 22': '22Q2',
-      'Jun 22': '22Q3',
-      'Sep 22': '22Q4',
-      'Dec 22': '23Q1',
-      'Mar 23': '23Q2',
-      '3 Aug 23': '23Q3',
-      '2 Nov 23': '23Q4',
-      '1 Feb 24': '24Q1',
-      '2 Mai 24': '24Q2',
-      '1 Aug 24': '24Q3',
-    };
-
-    this.revenueValueArr = {
-      '': '95,678',
-      'Mar 21': '72,683',
-      'Jun 21': '63,948',
-      'Sep 21': '65,083',
-      'Dec 21': '104,429',
-      'Mar 22': '77,457',
-      'Jun 22': '63,355',
-      'Sep 22': '70,958',
-      'Dec 22': '96,388',
-      'Mar 23': '73,929',
-      '3 Aug 23': '60,584',
-      '2 Nov 23': '67,184',
-      '1 Feb 24': '96,458',
-      '2 Mai 24': '66,886',
-      '1 Aug 24': '61,564',
-    };
+    try {
+    console.log(this.company);  // Überprüfe, ob die `company`-Prop korrekt übergeben wird
+    // Andere Initialisierungen
+  } catch (error) {
+    console.error("Fehler im created Hook:", error);
+  }
 
     this.quarterName =
       this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];

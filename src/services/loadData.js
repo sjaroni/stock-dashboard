@@ -37,7 +37,6 @@ class LoadData {
     let companiesData = localStorage.getItem('companiesData');
     if (companiesData) {
       this.allCompaniesDataJSON = await JSON.parse(companiesData);
-      this.getFullCompanyData();
     }
   }
 
@@ -47,9 +46,10 @@ class LoadData {
         .map(item => item[name]);
   }
 
-  async getFullCompanyData() {
-    const result = await this.getArrayByName('$META');
-    console.log(result);
+  async getFullCompanyData(companyName, sheetRow) {    
+    const result = await this.getArrayByName(companyName);
+    const sheetRowValues = result[0][sheetRow];
+    return sheetRowValues;
   }
 
   updateLocalStorage() {
@@ -72,7 +72,7 @@ class LoadData {
       const element = companyArray[index];
 
       let singleCompanyData = {
-        '[element.sheetName]': await this.updateCompaniesDataFromAPI(
+        [element.sheetName]: await this.updateCompaniesDataFromAPI(
           element.sheetName,
         ),
       };
