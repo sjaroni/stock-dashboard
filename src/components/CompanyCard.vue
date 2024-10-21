@@ -47,7 +47,7 @@ export default {
       fluctuationPercentage: null,
       revenueQuarterArr: {},
       revenueValueArr: {},
-      rawQuarter: ''
+      rawQuarter: '',
     };
   },
   computed: {
@@ -90,7 +90,7 @@ export default {
         return '';
       }
     },
-    formattedFluctuation() {      
+    formattedFluctuation() {
       return this.displayFluctuation > 0
         ? `+${this.displayFluctuation}`
         : this.displayFluctuation;
@@ -101,46 +101,40 @@ export default {
   },
 
   created() {
-    
-
     setTimeout(() => {
       this.loadContent();
-    }, 5000)    
+    }, 200);
   },
   methods: {
-    async loadContent(){
-      this.revenueQuarterArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueQuarter']);
-    this.revenueValueArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueRow']);
-    
-    
+    async loadContent() {
+      this.revenueQuarterArr = await loadData.getFullCompanyData(
+        `${this.company.sheetName}`,
+        this.company['revenueQuarter'],
+      );
+      this.revenueValueArr = await loadData.getFullCompanyData(
+        `${this.company.sheetName}`,
+        this.company['revenueRow'],
+      );
 
+      this.quarterName =
+        this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+      this.rawQuarter = this.quarterName;
 
-  //   try {
-  //   console.log(this.company);  // Überprüfe, ob die `company`-Prop korrekt übergeben wird
-  //   // Andere Initialisierungen
-  // } catch (error) {
-  //   console.error("Fehler im created Hook:", error);
-  // }
+      this.revenueValue =
+        this.revenueValueArr[Object.keys(this.revenueValueArr).pop()];
 
-    this.quarterName =
-      this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
-    this.rawQuarter = this.quarterName;
-    
-    this.revenueValue =
-      this.revenueValueArr[Object.keys(this.revenueValueArr).pop()];
-
-    const keys = Object.keys(this.revenueValueArr);
-    const lastTwoKeys = keys.slice(-2);
-    this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
-    this.secondLastValue = this.lastTwoValues[0].toString().replace(',', '.');
-    this.lastValue = this.lastTwoValues[1].toString().replace(',', '.');
-    this.fluctuationValue = this.lastValue - this.secondLastValue;
-    this.fluctuationValue = parseFloat(this.fluctuationValue.toFixed(2));
-    this.fluctuationPercentage = parseFloat(
-      (this.fluctuationValue / this.secondLastValue) * 100,
-    ).toFixed(2);
-    }
-  }
+      const keys = Object.keys(this.revenueValueArr);
+      const lastTwoKeys = keys.slice(-2);
+      this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
+      this.secondLastValue = this.lastTwoValues[0].toString().replace(',', '.');
+      this.lastValue = this.lastTwoValues[1].toString().replace(',', '.');
+      this.fluctuationValue = this.lastValue - this.secondLastValue;
+      this.fluctuationValue = parseFloat(this.fluctuationValue.toFixed(2));
+      this.fluctuationPercentage = parseFloat(
+        (this.fluctuationValue / this.secondLastValue) * 100,
+      ).toFixed(2);
+    },
+  },
 };
 </script>
 
