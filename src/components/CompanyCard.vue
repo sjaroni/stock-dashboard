@@ -99,17 +99,28 @@ export default {
       return normalizeQuarterFormat(this.rawQuarter);
     },
   },
-  async created() {
-    this.revenueQuarterArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueQuarter']);
+
+  created() {
+    
+
+    setTimeout(() => {
+      this.loadContent();
+    }, 5000)    
+  },
+  methods: {
+    async loadContent(){
+      this.revenueQuarterArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueQuarter']);
     this.revenueValueArr = await loadData.getFullCompanyData(`${this.company.sheetName}`, this.company['revenueRow']);
+    
+    
 
 
-    try {
-    console.log(this.company);  // Überprüfe, ob die `company`-Prop korrekt übergeben wird
-    // Andere Initialisierungen
-  } catch (error) {
-    console.error("Fehler im created Hook:", error);
-  }
+  //   try {
+  //   console.log(this.company);  // Überprüfe, ob die `company`-Prop korrekt übergeben wird
+  //   // Andere Initialisierungen
+  // } catch (error) {
+  //   console.error("Fehler im created Hook:", error);
+  // }
 
     this.quarterName =
       this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
@@ -128,7 +139,8 @@ export default {
     this.fluctuationPercentage = parseFloat(
       (this.fluctuationValue / this.secondLastValue) * 100,
     ).toFixed(2);
-  },
+    }
+  }
 };
 </script>
 

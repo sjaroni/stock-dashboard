@@ -34,7 +34,7 @@ class LoadData {
   }
 
   async getCompanyDataFromLocalStorage() {
-    let companiesData = localStorage.getItem('companiesData');
+    let companiesData = localStorage.getItem('companiesData') || '';
     if (companiesData) {
       this.allCompaniesDataJSON = await JSON.parse(companiesData);
     }
@@ -46,7 +46,7 @@ class LoadData {
         .map(item => item[name]);
   }
 
-  async getFullCompanyData(companyName, sheetRow) {    
+  async getFullCompanyData(companyName, sheetRow) {
     const result = await this.getArrayByName(companyName);
     const sheetRowValues = result[0][sheetRow];
     return sheetRowValues;
