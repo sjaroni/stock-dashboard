@@ -27,7 +27,6 @@
 </template>
 
 <script>
-// import { stockService } from '@/services/stockService';
 import { loadData } from '@/services/loadData';
 import { normalizeQuarterFormat } from '@/helpers/formatQuarter';
 
