@@ -1,7 +1,10 @@
 <template>
   <div class="content">
     <ChartHeadline :headlineTitle="title"></ChartHeadline>
-    <div class="chart">
+    <div v-if="isLoading">
+      <p>load ...</p>
+    </div>
+    <div v-else class="chart">
       <Doughnut :options="chartOptions" :data="chartData" />
       <div class="currency">In Billion USD TTM</div>
     </div>
@@ -33,6 +36,7 @@ export default {
           element['revenueRow'],
         );
 
+        console.log(element.sheetName);
         this.getLastFourValuesFromEachCompany(index);
       });
     },
@@ -41,9 +45,15 @@ export default {
       const keys = Object.keys(this.revenueValueArr);
       const lastFourKeys = keys.slice(-4);
 
+      
+      
+
       this.lastFourValues = lastFourKeys.map((key) => {
         return parseFloat(this.revenueValueArr[key].replace(',', '.'));
       });
+
+      console.log(this.lastFourValues);
+      
 
       this.sumLastFourValues = this.lastFourValues.reduce(
         (sum, value) => sum + (value || 0),
@@ -52,21 +62,18 @@ export default {
 
       let newValue = this.sumLastFourValues.toFixed(1);
 
-      // console.log(
-      //   'Sum of Last Four Values:' + index,
-      //   this.sumLastFourValues.toFixed(1),
-      // );
-      setTimeout(() => {
-        this.updateChartDataValue(index, newValue);
-      //this.getCompanyData();
-    }, 2000);
+      setTimeout(async () => {
+        await this.updateChartDataValue(index, newValue);
+      }, 200);
     },
 
-    updateChartDataValue(index, newValue) {
-      
+    async updateChartDataValue(index, newValue) {
       if (index < this.chartData.datasets[0].data.length) {
-        console.log('klappt ' + index + " " + newValue);
         this.chartData.datasets[0].data[index] = newValue;
+        setTimeout(() => {
+          this.chartData.datasets[0].data[index];
+          this.isLoading = false;
+        }, 200);
       }
     },
   },
@@ -75,15 +82,17 @@ export default {
       this.getCompanyData();
     }, 200);
   },
+
   data() {
     return {
+      isLoading: true,
       title: 'Revenue Breakdown Magnificent Seven',
       chartData: {
         labels: companyArray.map((item) => item.companyName),
         datasets: [
           {
             backgroundColor: companyArray.map((item) => item.color),
-            data: [8.7, 5.4, 14.7, 17, 17.7, 11.5, 9.1],
+            data: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
           },
         ],
       },
