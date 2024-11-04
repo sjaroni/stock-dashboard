@@ -1,18 +1,18 @@
 <template>
   <HeadLine />
-  <ThreeRows />
+  <!-- <ThreeRows /> -->
 </template>
 
 <script>
 import HeadLine from './components/HeadLine.vue';
-import ThreeRows from './components/ThreeRows.vue';
+// import ThreeRows from './components/ThreeRows.vue';
 import { loadData } from '@/services/loadData';
 
 export default {
   name: 'App',
   components: {
     HeadLine,
-    ThreeRows,
+    // ThreeRows,
   },
   beforeCreate(){    
     loadData.checkLastData();

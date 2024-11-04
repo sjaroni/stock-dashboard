@@ -10,15 +10,22 @@ class LoadData {
   async checkLastData() {
     let currentTime = new Date().getTime();
     let timeFromStorage = await this.getLastStockDataTimestampFromLocalStorage();
+
+    if (timeFromStorage == undefined) {
+      await this.updateLocalStorage();
+    } else {
+      await this.checkTimeDifference(currentTime, timeFromStorage);
+    }
+  }
+
+  async checkTimeDifference(currentTime, timeFromStorage) {
     let diffMiliseconds = currentTime - timeFromStorage;
     let diffMinutes = diffMiliseconds / (1000 * 60);
     let roundedMinutes = diffMinutes.toFixed();
     if (roundedMinutes > 2) {
-      console.log('sollte kommen');
-
       await this.updateLocalStorage();
     } else {
-      this.getCompanyDataFromLocalStorage();
+      await this.getCompanyDataFromLocalStorage();
     }
   }
 
@@ -63,11 +70,11 @@ class LoadData {
   }
 
   async addCompaniesDataInLocalStorage() {
-    await this.removeCampaniesDataFromLocalStorage();
+    await this.removeCompaniesDataFromLocalStorage();
     await this.updateCompaniesData();
   }
 
-  async removeCampaniesDataFromLocalStorage() {
+  async removeCompaniesDataFromLocalStorage() {
     localStorage.removeItem('companiesData');
   }
 
