@@ -37,6 +37,7 @@ export default {
         );
 
         console.log(element.sheetName);
+        console.log(this.revenueValueArr);
         this.getLastFourValuesFromEachCompany(index);
       });
     },
@@ -52,7 +53,7 @@ export default {
         return parseFloat(this.revenueValueArr[key].replace(',', '.'));
       });
 
-      console.log(this.lastFourValues);
+      // console.log(this.lastFourValues);
       
 
       this.sumLastFourValues = this.lastFourValues.reduce(

@@ -7,16 +7,19 @@ class LoadData {
   allCompaniesDataArray = [];
   allCompaniesDataJSON = [];
 
-  checkLastData() {
+  async checkLastData() {
     let currentTime = new Date().getTime();
-    let timeFromStorage = this.getLastStockDataTimestampFromLocalStorage();
+    let timeFromStorage = await this.getLastStockDataTimestampFromLocalStorage();
     let diffMiliseconds = currentTime - timeFromStorage;
     let diffMinutes = diffMiliseconds / (1000 * 60);
     let roundedMinutes = diffMinutes.toFixed();
-    if (roundedMinutes > 20) {
-      this.updateLocalStorage();
+    if (roundedMinutes > 2) {
+      console.log('sollte kommen');
+
+      await this.updateLocalStorage();
+    } else {
+      this.getCompanyDataFromLocalStorage();
     }
-    this.getCompanyDataFromLocalStorage();
   }
 
   saveToLocalStorage(key, value) {
@@ -41,18 +44,19 @@ class LoadData {
   }
 
   async getArrayByName(name) {
-    return this.allCompaniesDataJSON      
-      .filter(item => Object.prototype.hasOwnProperty.call(item, name))
-        .map(item => item[name]);
+    return this.allCompaniesDataJSON
+      .filter((item) => Object.prototype.hasOwnProperty.call(item, name))
+      .map((item) => item[name]);
   }
 
   async getFullCompanyData(companyName, sheetRow) {
     const result = await this.getArrayByName(companyName);
+    //TODO - Error after new/first api-call
     const sheetRowValues = result[0][sheetRow];
     return sheetRowValues;
   }
 
-  updateLocalStorage() {
+  async updateLocalStorage() {
     this.saveToLocalStorage('lastStockData', new Date().getTime());
     this.addCompaniesDataInLocalStorage();
     this.checkLastData();
