@@ -6,6 +6,7 @@ class LoadData {
 
   allCompaniesDataArray = [];
   allCompaniesDataJSON = [];
+  isLoading = false;
 
   async checkLastData() {
     let currentTime = new Date().getTime();
@@ -38,8 +39,6 @@ class LoadData {
     if (lastStockData) {
       let lastStockDataTimestamp = await JSON.parse(lastStockData);
       return lastStockDataTimestamp;
-    } else {
-      this.updateLocalStorage();
     }
   }
 
@@ -57,8 +56,7 @@ class LoadData {
   }
 
   async getFullCompanyData(companyName, sheetRow) {
-    const result = await this.getArrayByName(companyName);
-    //TODO - Error after new/first api-call
+    const result = await this.getArrayByName(companyName);    
     const sheetRowValues = result[0][sheetRow];
     return sheetRowValues;
   }
@@ -75,6 +73,7 @@ class LoadData {
   }
 
   async removeCompaniesDataFromLocalStorage() {
+    this.isLoading = true;
     localStorage.removeItem('companiesData');
   }
 
@@ -95,6 +94,7 @@ class LoadData {
       'companiesData',
       JSON.stringify(this.allCompaniesDataArray),
     );
+    this.isLoading = false;
   }
 
   async updateCompaniesDataFromAPI(sheetName) {
