@@ -10,7 +10,8 @@ class LoadData {
 
   async checkLastData() {
     let currentTime = new Date().getTime();
-    let timeFromStorage = await this.getLastStockDataTimestampFromLocalStorage();
+    let timeFromStorage =
+      await this.getLastStockDataTimestampFromLocalStorage();
 
     if (timeFromStorage == undefined) {
       await this.updateLocalStorage();
@@ -23,7 +24,9 @@ class LoadData {
     let diffMiliseconds = currentTime - timeFromStorage;
     let diffMinutes = diffMiliseconds / (1000 * 60);
     let roundedMinutes = diffMinutes.toFixed();
-    if (roundedMinutes > 2) {
+    //FIXME - Set API-access time
+    // if (roundedMinutes > 20) {
+    if (roundedMinutes > 30000) {
       await this.updateLocalStorage();
     } else {
       await this.getCompanyDataFromLocalStorage();
@@ -50,15 +53,23 @@ class LoadData {
   }
 
   async getArrayByName(name) {
+    console.log(name);
+    
     return this.allCompaniesDataJSON
       .filter((item) => Object.prototype.hasOwnProperty.call(item, name))
       .map((item) => item[name]);
   }
 
   async getFullCompanyData(companyName, sheetRow) {
-    const result = await this.getArrayByName(companyName);    
-    const sheetRowValues = result[0][sheetRow];
-    return sheetRowValues;
+    while (this.isLoading) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+
+    const result = await this.getArrayByName(companyName);
+    if(result){
+      const sheetRowValues = result[0][sheetRow];
+      return sheetRowValues;
+    }
   }
 
   async updateLocalStorage() {
@@ -68,6 +79,7 @@ class LoadData {
   }
 
   async addCompaniesDataInLocalStorage() {
+    this.isLoading = true;
     await this.removeCompaniesDataFromLocalStorage();
     await this.updateCompaniesData();
   }
