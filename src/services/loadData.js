@@ -6,6 +6,7 @@ class LoadData {
 
   allCompaniesDataArray = [];
   allCompaniesDataJSON = [];
+  companyDataCache = {};
   isLoading = false;
 
   async checkLastData() {
@@ -53,8 +54,6 @@ class LoadData {
   }
 
   async getArrayByName(name) {
-    console.log(name);
-    
     return this.allCompaniesDataJSON
       .filter((item) => Object.prototype.hasOwnProperty.call(item, name))
       .map((item) => item[name]);
@@ -65,8 +64,14 @@ class LoadData {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
+    if (this.companyDataCache[companyName]) {
+      return this.companyDataCache[companyName][sheetRow];
+    }
+
     const result = await this.getArrayByName(companyName);
-    if(result){
+
+    if (result) {
+      this.companyDataCache[companyName] = result[0];
       const sheetRowValues = result[0][sheetRow];
       return sheetRowValues;
     }
