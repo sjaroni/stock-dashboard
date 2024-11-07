@@ -105,7 +105,18 @@ export default {
     }, 200);
   },
   methods: {
+    
     async loadContent() {
+      await this.loadRevenueData();
+      this.rawQuarter = this.getQuarterName();
+      this.revenueValue = await this.getRevenueValue();
+
+      this.extractLastTwoValues();
+
+      await this.calculateFluctuations();
+    },
+
+    async loadRevenueData() {
       this.revenueQuarterArr = await loadData.getFullCompanyData(
         `${this.company.sheetName}`,
         this.company['revenueQuarter'],
@@ -114,24 +125,61 @@ export default {
         `${this.company.sheetName}`,
         this.company['revenueRow'],
       );
+    },
 
-      this.quarterName =
-        this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
-      this.rawQuarter = this.quarterName;
-
-      this.revenueValue =
-        this.revenueValueArr[Object.keys(this.revenueValueArr).pop()];
-
+    extractLastTwoValues() {
       const keys = Object.keys(this.revenueValueArr);
       const lastTwoKeys = keys.slice(-2);
       this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
-      this.secondLastValue = this.lastTwoValues[0].toString().replace(',', '.');
-      this.lastValue = this.lastTwoValues[1].toString().replace(',', '.');
-      this.fluctuationValue = this.lastValue - this.secondLastValue;
-      this.fluctuationValue = parseFloat(this.fluctuationValue.toFixed(2));
-      this.fluctuationPercentage = parseFloat(
-        (this.fluctuationValue / this.secondLastValue) * 100,
-      ).toFixed(2);
+    },
+
+    async calculateFluctuations() {
+      const secondLastValue = await this.convertNumberToFixedNumber(
+        this.lastTwoValues[0],
+        2,
+      );
+      const lastValue = await this.convertNumberToFixedNumber(
+        this.lastTwoValues[1],
+        2,
+      );
+      this.fluctuationValue = this.calculateFluctuationValue(
+        parseFloat(lastValue),
+        parseFloat(secondLastValue),
+      );
+      this.fluctuationPercentage = this.calculateFluctuationPercentage(
+        this.fluctuationValue,
+        parseFloat(secondLastValue),
+      );
+      this.secondLastValue = secondLastValue;
+    },
+
+    getQuarterName() {
+      return this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+    },
+
+    calculateFluctuationValue(lastValue, secondLastValue) {
+      let fluctuationValue = lastValue - secondLastValue;
+      return parseFloat(fluctuationValue.toFixed(2));
+    },
+
+    calculateFluctuationPercentage(fluctuationValue, secondLastValue) {
+      return parseFloat(
+        ((fluctuationValue / secondLastValue) * 100).toFixed(2),
+      );
+    },
+
+    async getRevenueValue() {
+      let revenueValue =
+        this.revenueValueArr[Object.keys(this.revenueValueArr).pop()];
+
+      revenueValue = await this.convertNumberToFixedNumber(revenueValue, 2);
+      return revenueValue;
+    },
+
+    async convertNumberToFixedNumber(number, decimal) {
+      let convertedNumber = number.toString().replace(',', '.');
+      convertedNumber = parseFloat(convertedNumber);
+      return convertedNumber.toFixed(decimal);
     },
   },
 };
