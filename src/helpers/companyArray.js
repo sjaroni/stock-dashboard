@@ -53,7 +53,7 @@ export const companyArray = [
     sheetName: '$TSLA',
     companyName: 'Tesla',
     revenueQuarter: 1,
-    revenueRow: 11,
+    revenueRow: 12,
     netIncomeRow: 44,
     grossMarginRow: 26,
     icon: require('@/assets/icons/tesla.svg'),
