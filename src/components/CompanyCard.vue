@@ -131,7 +131,7 @@ export default {
       const keys = Object.keys(this.revenueValueArr);
       const lastTwoKeys = keys.slice(-2);
       this.lastTwoValues = lastTwoKeys.map((key) => this.revenueValueArr[key]);
-    },
+    },    
 
     async calculateFluctuations() {
       const secondLastValue = await this.convertNumberToFixedNumber(
@@ -153,7 +153,7 @@ export default {
       this.secondLastValue = secondLastValue;
     },
 
-    getQuarterName() {
+    getQuarterName() {      
       return this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
     },
 
