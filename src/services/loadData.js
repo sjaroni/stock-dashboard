@@ -76,10 +76,6 @@ class LoadData {
     if (result) {
       this.companyDataCache[companyName] = result[0];
       const sheetRowValues = result[0][sheetRow];
-
-      // console.log(sheetRowValues);
-      
-
       return sheetRowValues;
     }
   }

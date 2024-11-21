@@ -12,6 +12,7 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import ChartHeadline from './ChartHeadline.vue';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -34,90 +35,84 @@ export default {
           `${element.sheetName}`,
           element['revenueRow'],
         );
+
+        console.log(this.revenueValueArr);
+
         this.revenueQuarter = await loadData.getFullCompanyData(
           `${element.sheetName}`,
           element['revenueQuarter'],
         );
+
         this.getLastFourValuesFromEachCompany(index);
         console.log(element.sheetName);
         // this.sortObjectEntriesByQuarter(this.revenueQuarter);
 
         let sortedMap = this.sortObjectEntriesByQuarter(this.revenueQuarter);
-        console.log(sortedMap);
+        // console.log(sortedMap);
 
+        // Letzte 4 Einträge extrahieren
+        let last4Entries = this.getLastNEntriesFromMap(sortedMap, 4);
+
+        // Ausgabe der letzten 4 Einträge
+        let results = Array.from(last4Entries.entries());
+        // console.log(results);
+        // Positionen finden
+        const positions = this.findPositions(this.revenueQuarter, results);
+        // console.log(positions);
+
+        
         
 
       });
     },
 
-    // xsortObjectEntriesByQuarter(obj) {
-    //   let entries = Object.entries(obj);
+    // Funktion, um die Position der Werte im Objekt zu finden
+    findPositions(obj, array) {
+      const entries = Object.entries(obj); // Konvertiere Objekt in Array
+      return array.map(([key, value]) => {
+        const index = entries.findIndex(
+          ([objKey, objValue]) => objKey === key && objValue === value,
+        );
+        return { key, value, position: index }; // Speichere Key, Value und Position
+      });
+    },
 
-    //   entries.sort((a, b) => {
-    //     const parseQuarterYear = (str) => {
-    //       const match = str.match(/Q(\d)-(\d+)/);
-    //       if (match) {
-    //         const quarter = parseInt(match[1], 10);
-    //         const year = parseInt(match[2], 10);
-    //         return year * 4 + (quarter - 1);
-    //       }
-    //       return Infinity;
-    //     };
+    getLastNEntriesFromMap(map, n) {
+      const entries = Array.from(map.entries()); // Konvertiere Map zu Array
+      const lastNEntries = entries.slice(-n); // Hole die letzten N Einträge
+      return new Map(lastNEntries); // Konvertiere zurück zu einer neuen Map
+    },
 
-    //     return parseQuarterYear(a[1]) - parseQuarterYear(b[1]);
-    //   });
-
-    //   console.log(entries);
-
-    //   // Erstellen einer Map, um die Sortierung zu behalten
-    //   let resultMap = new Map(entries);
-    //   // Umwandlung der Map in ein Objekt, das die Sortierung beibehält
-    //   let result = Object.fromEntries(resultMap);
-    //   console.log(result);
-    // },
-//TODO - Weitermachen
     sortObjectEntriesByQuarter(obj) {
-    let entries = Object.entries(obj);
+      let entries = Object.entries(obj);
 
-    entries.sort((a, b) => {
+      entries.sort((a, b) => {
         const parseQuarterYear = (str) => {
-            const match = str.match(/Q(\d)-(\d+)/);
-            if (match) {
-                const quarter = parseInt(match[1], 10);
-                const year = parseInt(match[2], 10);
-                return year * 4 + (quarter - 1);
-            }
-            return Infinity;
+          const match = str.match(/Q(\d)-(\d+)/);
+          if (match) {
+            const quarter = parseInt(match[1], 10);
+            const year = parseInt(match[2], 10);
+            return year * 4 + (quarter - 1);
+          }
+          return Infinity;
         };
 
         return parseQuarterYear(a[1]) - parseQuarterYear(b[1]);
-    });
+      });
 
-    // Log der Einträge in sortierter Reihenfolge
-    // console.log(entries);
+      // Log der Einträge in sortierter Reihenfolge
+      // console.log(entries);
 
-    // Erstellen einer Map, um die Sortierung beizubehalten
-    let resultMap = new Map(entries);
+      // Erstellen einer Map, um die Sortierung beizubehalten
+      let resultMap = new Map(entries);
 
-    // Rückgabe als Map, die die Sortierung garantiert
-    return resultMap;
-},
-
-
-    getLastFourValuesFromEachCompany2(index) {
-      console.log(index);
+      // Rückgabe als Map, die die Sortierung garantiert
+      return resultMap;
     },
 
     getLastFourValuesFromEachCompany(index) {
       const keys = Object.keys(this.revenueValueArr);
-
-      // console.log(this.revenueValueArr);
       const lastFourKeys = keys.slice(-4);
-
-      // console.log(keys);
-
-      //this.sortObjectEntriesByQuarter();
-
       this.lastFourValues = lastFourKeys.map((key) => {
         return parseFloat(this.revenueValueArr[key].replace(',', '.'));
       });
@@ -132,14 +127,6 @@ export default {
       setTimeout(async () => {
         await this.updateChartDataValue(index, newValue);
       }, 200);
-    },
-
-    extractLastFourValues() {
-      //console.log(this.revenueQuarterArr);
-      // const keys = Object.keys(this.revenueQuarterArr);
-      // const lastFourKeys = keys.slice(-4);
-      // this.lastFourKeys = lastFourKeys.map((key) => this.revenueQuarterArr[key]);
-      // console.log(this.lastFourKeys);
     },
 
     async updateChartDataValue(index, newValue) {
