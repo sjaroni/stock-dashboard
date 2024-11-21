@@ -2,7 +2,7 @@ import axios from 'axios';
 class StockService {
   constructor() {
     this.apiClient = axios.create({
-      baseURL: 'https://sheetdb.io/api/v1/ay174zkrilrhe'
+      baseURL: process.env.VUE_APP_API_BASE_URL
     });
   }
 
