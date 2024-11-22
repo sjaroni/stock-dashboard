@@ -12,7 +12,6 @@
 </template>
 
 <script>
-/* eslint-disable no-unused-vars */
 import ChartHeadline from './ChartHeadline.vue';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -28,6 +27,7 @@ export default {
     ChartHeadline,
     Doughnut,
   },
+
   methods: {
     async getCompanyData() {
       companyArray.forEach(async (element, index) => {
@@ -35,87 +35,18 @@ export default {
           `${element.sheetName}`,
           element['revenueRow'],
         );
-
-        console.log(this.revenueValueArr);
-
-        this.revenueQuarter = await loadData.getFullCompanyData(
-          `${element.sheetName}`,
-          element['revenueQuarter'],
-        );
-
+        
         this.getLastFourValuesFromEachCompany(index);
-        console.log(element.sheetName);
-        // this.sortObjectEntriesByQuarter(this.revenueQuarter);
-
-        let sortedMap = this.sortObjectEntriesByQuarter(this.revenueQuarter);
-        // console.log(sortedMap);
-
-        // Letzte 4 Einträge extrahieren
-        let last4Entries = this.getLastNEntriesFromMap(sortedMap, 4);
-
-        // Ausgabe der letzten 4 Einträge
-        let results = Array.from(last4Entries.entries());
-        // console.log(results);
-        // Positionen finden
-        const positions = this.findPositions(this.revenueQuarter, results);
-        // console.log(positions);
-
-        
-        
-
       });
-    },
-
-    // Funktion, um die Position der Werte im Objekt zu finden
-    findPositions(obj, array) {
-      const entries = Object.entries(obj); // Konvertiere Objekt in Array
-      return array.map(([key, value]) => {
-        const index = entries.findIndex(
-          ([objKey, objValue]) => objKey === key && objValue === value,
-        );
-        return { key, value, position: index }; // Speichere Key, Value und Position
-      });
-    },
-
-    getLastNEntriesFromMap(map, n) {
-      const entries = Array.from(map.entries()); // Konvertiere Map zu Array
-      const lastNEntries = entries.slice(-n); // Hole die letzten N Einträge
-      return new Map(lastNEntries); // Konvertiere zurück zu einer neuen Map
-    },
-
-    sortObjectEntriesByQuarter(obj) {
-      let entries = Object.entries(obj);
-
-      entries.sort((a, b) => {
-        const parseQuarterYear = (str) => {
-          const match = str.match(/Q(\d)-(\d+)/);
-          if (match) {
-            const quarter = parseInt(match[1], 10);
-            const year = parseInt(match[2], 10);
-            return year * 4 + (quarter - 1);
-          }
-          return Infinity;
-        };
-
-        return parseQuarterYear(a[1]) - parseQuarterYear(b[1]);
-      });
-
-      // Log der Einträge in sortierter Reihenfolge
-      // console.log(entries);
-
-      // Erstellen einer Map, um die Sortierung beizubehalten
-      let resultMap = new Map(entries);
-
-      // Rückgabe als Map, die die Sortierung garantiert
-      return resultMap;
     },
 
     getLastFourValuesFromEachCompany(index) {
       const keys = Object.keys(this.revenueValueArr);
-      const lastFourKeys = keys.slice(-4);
+      const lastFourKeys = keys.slice(-4);      
+
       this.lastFourValues = lastFourKeys.map((key) => {
         return parseFloat(this.revenueValueArr[key].replace(',', '.'));
-      });
+      });      
 
       this.sumLastFourValues = this.lastFourValues.reduce(
         (sum, value) => sum + (value || 0),
@@ -148,7 +79,6 @@ export default {
   data() {
     return {
       isLoading: true,
-      revenueQuarterArr: {},
       title: 'Revenue Breakdown Magnificent Seven',
       chartData: {
         labels: companyArray.map((item) => item.companyName),
@@ -171,7 +101,7 @@ export default {
                 return chart.data.labels.map((label, i) => {
                   const value = dataset.data[i];
                   return {
-                    text: `   ${label} ${value}`,
+                    text: `${label}: ${value}`,
                     fillStyle: dataset.backgroundColor[i],
                     strokeStyle: '#FFFFFF',
                     fontColor: '#FFFFFF',
