@@ -6,8 +6,6 @@
     </div>
     <div v-else class="chart">
       <Bar :options="chartOptions" :data="chartData" />
-
-      <div class="currency">In Billion USD TTM</div>
     </div>
   </div>
 </template>
@@ -15,11 +13,18 @@
 <script>
 import ChartHeadline from './ChartHeadline.vue';
 import { Bar } from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  BarElement,
+} from 'chart.js';
 import { companyArray } from '@/helpers/companyArray.js';
 import { loadData } from '@/services/loadData';
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement);
+ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement);
 
 export default {
   name: 'NetIncome',
@@ -35,11 +40,6 @@ export default {
           `${element.sheetName}`,
           element['netIncomeRow'],
         );
-
-        if (element.sheetName == '$TSLA') {
-          console.log(element.sheetName);
-          console.log(this.netIncomeValueArr);
-        }
 
         this.getLastFourValuesFromEachCompany(index);
       });
@@ -60,12 +60,9 @@ export default {
 
       let newValue = this.sumLastFourValues.toFixed(2);
 
-      console.log(newValue);
-      console.log(index);
-
-      // setTimeout(async () => {
-      //   await this.updateChartDataValue(index, newValue);
-      // }, 200);
+      setTimeout(async () => {
+        await this.updateChartDataValue(index, newValue);
+      }, 200);
     },
     async updateChartDataValue(index, newValue) {
       if (index < this.chartData.datasets[0].data.length) {
@@ -83,7 +80,7 @@ export default {
       this.getCompanyData();
     }, 200);
   },
-  
+
   data() {
     return {
       isLoading: true,
@@ -93,50 +90,57 @@ export default {
         datasets: [
           {
             backgroundColor: companyArray.map((item) => item.color),
-            data: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+            data: [4.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+            borderColor: '#FFFFFF',
+            borderWidth: 2
           },
         ],
       },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
+        indexAxis: 'y',
         plugins: {
           legend: {
-            position: 'right',
+            display: false,
             labels: {
-              generateLabels: function (chart) {
-                const dataset = chart.data.datasets[0];
-                return chart.data.labels.map((label, i) => {
-                  const value = dataset.data[i];
-                  return {
-                    text: `${label}: ${value}`,
-                    fillStyle: dataset.backgroundColor[i],
-                    strokeStyle: '#FFFFFF',
-                    fontColor: '#FFFFFF',
-                    font: {
-                      family: 'Rubik',
-                      size: 10,
-                      weight: '400',
-                      lineHeight: 1.185,
-                    },
-                    textAlign: 'left',
-                    boxWidth: 20,
-                    padding: 20,
-                    hidden: false,
-                    index: i,
-                  };
-                });
+              color: '#FFFFFF',
+              fontColor: '#FFFFFF',
+              font: {
+                size: 44,
               },
             },
           },
         },
+        scales: {
+    x: {
+      beginAtZero: true,
+      min: 0,
+      grid: {
+        color: '#FFFFFF', // Linienfarbe der Gitterlinien
+        borderColor: '#FFFFFF', // Farbe des Randes
+        borderWidth: 1 // Breite des Rahmens
+      },
+      ticks: {
+        color: '#FFFFFF' // Farbe der Tick-Werte
+      },      
+    },
+    y: {
+      min: 0,
+      grid: {
+        color: '#FFFFFF', // Linienfarbe der Gitterlinien
+        borderColor: '#FFFFFF', // Farbe des Randes
+        borderWidth: 1 // Breite des Rahmens
+      },
+      ticks: {
+        color: '#FFFFFF', // Farbe der Tick-Werte
+        autoSkip: false
+      }
+    }
+  }
       },
     };
   },
-  // data() {
-  //   return {
-  //   };
-  // },  
 };
 </script>
 
