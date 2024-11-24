@@ -5,7 +5,8 @@
       <p>load ...</p>
     </div>
     <div v-else class="chart">
-      <Bar :options="chartOptions" :data="chartData" />
+      <!-- Lokales Binden des Plugins -->
+      <Bar :options="chartOptions" :data="chartData" :plugins="chartPlugins" />
     </div>
   </div>
 </template>
@@ -21,9 +22,11 @@ import {
   ArcElement,
   BarElement,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels'; // Importiere das Plugin
 import { companyArray } from '@/helpers/companyArray.js';
 import { loadData } from '@/services/loadData';
 
+// Registriere nur Standard-Plugins
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement);
 
 export default {
@@ -33,12 +36,13 @@ export default {
     ChartHeadline,
     Bar,
   },
+
   methods: {
     async getCompanyData() {
       companyArray.forEach(async (element, index) => {
         this.netIncomeValueArr = await loadData.getFullCompanyData(
           `${element.sheetName}`,
-          element['netIncomeRow'],
+          element['netIncomeRow']
         );
 
         this.getLastFourValuesFromEachCompany(index);
@@ -55,7 +59,7 @@ export default {
 
       this.sumLastFourValues = this.lastFourValues.reduce(
         (sum, value) => sum + (value || 0),
-        0,
+        0
       );
 
       let newValue = this.sumLastFourValues.toFixed(2);
@@ -64,6 +68,7 @@ export default {
         await this.updateChartDataValue(index, newValue);
       }, 200);
     },
+
     async updateChartDataValue(index, newValue) {
       if (index < this.chartData.datasets[0].data.length) {
         this.chartData.datasets[0].data[index] = newValue;
@@ -90,9 +95,9 @@ export default {
         datasets: [
           {
             backgroundColor: companyArray.map((item) => item.color),
-            data: [4.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+            data: [62.62, 40.15, 39.50, 24.51, 26.25, 6.81, 3.16],
             borderColor: '#FFFFFF',
-            borderWidth: 2
+            borderWidth: 1.5,
           },
         ],
       },
@@ -105,40 +110,56 @@ export default {
             display: false,
             labels: {
               color: '#FFFFFF',
-              fontColor: '#FFFFFF',
               font: {
-                size: 44,
+                size: 14,
               },
             },
           },
+          tooltip: {
+            enabled: true,
+          },
+          datalabels: {
+            color: '#FFFFFF',
+            anchor: 'end',
+            align: 'start',            
+            font: {
+              size: 12,
+              weight: 'bold',
+            },
+            offset: -40,
+          },
         },
         scales: {
-    x: {
-      beginAtZero: true,
-      min: 0,
-      grid: {
-        color: '#FFFFFF', // Linienfarbe der Gitterlinien
-        borderColor: '#FFFFFF', // Farbe des Randes
-        borderWidth: 1 // Breite des Rahmens
+          x: {
+            beginAtZero: true,
+            min: 0,
+            max: 120,
+            grid: {
+              color: '#FFFFFF',
+              borderColor: '#FFFFFF',
+              borderWidth: 0.5,
+              offset: false,
+            },
+            ticks: {
+              color: '#FFFFFF',
+            },
+          },
+          y: {
+            min: 0,
+            beginAtZero: true,
+            grid: {
+              color: '#FFFFFF',
+              borderColor: '#FFFFFF',
+              borderWidth: 0.5,
+              offset: true,              
+            },
+            ticks: {
+              color: '#FFFFFF',
+            },
+          },
+        },
       },
-      ticks: {
-        color: '#FFFFFF' // Farbe der Tick-Werte
-      },      
-    },
-    y: {
-      min: 0,
-      grid: {
-        color: '#FFFFFF', // Linienfarbe der Gitterlinien
-        borderColor: '#FFFFFF', // Farbe des Randes
-        borderWidth: 1 // Breite des Rahmens
-      },
-      ticks: {
-        color: '#FFFFFF', // Farbe der Tick-Werte
-        autoSkip: false
-      }
-    }
-  }
-      },
+      chartPlugins: [ChartDataLabels],
     };
   },
 };
