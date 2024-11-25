@@ -4,8 +4,7 @@
     <div v-if="isLoading">
       <p>load ...</p>
     </div>
-    <div v-else class="chart">
-      <!-- Lokales Binden des Plugins -->
+    <div v-else class="chart">      
       <Bar :options="chartOptions" :data="chartData" :plugins="chartPlugins" />
     </div>
   </div>
@@ -22,11 +21,10 @@ import {
   ArcElement,
   BarElement,
 } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels'; // Importiere das Plugin
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { companyArray } from '@/helpers/companyArray.js';
 import { loadData } from '@/services/loadData';
 
-// Registriere nur Standard-Plugins
 ChartJS.register(Title, Tooltip, Legend, ArcElement, BarElement);
 
 export default {
