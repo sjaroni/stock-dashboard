@@ -25,16 +25,14 @@ class LoadData {
     let diffMiliseconds = currentTime - timeFromStorage;
     let diffMinutes = diffMiliseconds / (1000 * 60);
     let roundedMinutes = diffMinutes.toFixed();
-    //FIXME - Set API-access time
-    // if (roundedMinutes > 20) {
-    if (roundedMinutes > 30000) {
+    if (roundedMinutes > 7200) {
       await this.updateLocalStorage();
     } else {
       await this.getCompanyDataFromLocalStorage();
     }
   }
 
-  saveToLocalStorage(key, value) {
+  async saveToLocalStorage(key, value) {
     localStorage.setItem(key, value);
   }
 
@@ -71,7 +69,6 @@ class LoadData {
     const result = await this.getArrayByName(companyName);
 
     // console.log(companyName, result);
-    
 
     if (result) {
       this.companyDataCache[companyName] = result[0];
@@ -81,8 +78,8 @@ class LoadData {
   }
 
   async updateLocalStorage() {
-    this.saveToLocalStorage('lastStockData', new Date().getTime());
-    this.addCompaniesDataInLocalStorage();
+    await this.saveToLocalStorage('lastStockData', new Date().getTime());
+    await this.addCompaniesDataInLocalStorage();
     this.checkLastData();
   }
 
@@ -110,10 +107,11 @@ class LoadData {
       this.allCompaniesDataArray.push(singleCompanyData);
     }
 
-    this.saveToLocalStorage(
+    await this.saveToLocalStorage(
       'companiesData',
       JSON.stringify(this.allCompaniesDataArray),
     );
+
     this.isLoading = false;
   }
 
