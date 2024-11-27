@@ -49,18 +49,18 @@ export default {
 
     getLastValueFromEachCompany(index) {
       const keys = Object.keys(this.grossMargin);
-      const lastFourKeys = keys.slice(-1);
+      const lastKeys = keys.slice(-1);
 
-      this.lastFourValues = lastFourKeys.map((key) => {
+      this.lastValues = lastKeys.map((key) => {
         return parseFloat(this.grossMargin[key].replace(',', '.'));
       });
 
-      this.sumLastFourValues = this.lastFourValues.reduce(
+      this.sumLastValues = this.lastValues.reduce(
         (sum, value) => sum + (value || 0),
         0,
       );
 
-      let newValue = this.sumLastFourValues.toFixed(1);
+      let newValue = this.sumLastValues.toFixed(1);
 
       setTimeout(async () => {
         await this.updateChartDataValue(index, newValue);
@@ -68,13 +68,11 @@ export default {
     },
 
     async updateChartDataValue(index, newValue) {
-      if (index < this.chartData.datasets[0].data.length) {
-        this.chartData.datasets[0].data[index] = newValue;
-        setTimeout(() => {
-          this.chartData.datasets[0].data[index];
-          this.isLoading = false;
-        }, 200);
-      }
+      this.chartData.datasets[0].data[index] = newValue;
+      setTimeout(() => {
+        this.chartData.datasets[0].data[index];
+        this.isLoading = false;
+      }, 200);
     },
   },
 
@@ -93,7 +91,7 @@ export default {
         datasets: [
           {
             backgroundColor: companyArray.map((item) => item.color),
-            data: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+            data: [62.62, 40.15, 39.5, 24.51, 26.25, 6.81, 3.16],
             borderColor: '#FFFFFF',
             borderWidth: 1.5,
           },
