@@ -4,7 +4,7 @@
     <div v-if="isLoading">
       <p>load ...</p>
     </div>
-    <div v-else class="chart">      
+    <div v-else class="chart">
       <Bar :options="chartOptions" :data="chartData" :plugins="chartPlugins" />
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
       companyArray.forEach(async (element, index) => {
         this.netIncomeValueArr = await loadData.getFullCompanyData(
           `${element.sheetName}`,
-          element['netIncomeRow']
+          element['netIncomeRow'],
         );
 
         this.getLastFourValuesFromEachCompany(index);
@@ -57,7 +57,7 @@ export default {
 
       this.sumLastFourValues = this.lastFourValues.reduce(
         (sum, value) => sum + (value || 0),
-        0
+        0,
       );
 
       let newValue = this.sumLastFourValues.toFixed(2);
@@ -92,8 +92,8 @@ export default {
         labels: companyArray.map((item) => item.companyName),
         datasets: [
           {
-            backgroundColor: companyArray.map((item) => item.color),
-            data: [62.62, 40.15, 39.50, 24.51, 26.25, 6.81, 3.16],
+            backgroundColor: companyArray.map((item) => item.color),            
+            data: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
             borderColor: '#FFFFFF',
             borderWidth: 1.5,
           },
@@ -119,7 +119,7 @@ export default {
           datalabels: {
             color: '#FFFFFF',
             anchor: 'end',
-            align: 'start',            
+            align: 'start',
             font: {
               size: 12,
               weight: 'bold',
@@ -133,8 +133,8 @@ export default {
             min: 0,
             max: 120,
             grid: {
-              color: '#FFFFFF',
-              borderColor: '#FFFFFF',
+              color: '#9E9E9E',
+              borderColor: '#9E9E9E',
               borderWidth: 0.5,
               offset: false,
             },
@@ -146,10 +146,10 @@ export default {
             min: 0,
             beginAtZero: true,
             grid: {
-              color: '#FFFFFF',
-              borderColor: '#FFFFFF',
+              color: '#9E9E9E',
+              borderColor: '#9E9E9E',
               borderWidth: 0.5,
-              offset: true,              
+              offset: true,
             },
             ticks: {
               color: '#FFFFFF',

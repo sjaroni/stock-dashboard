@@ -37,7 +37,7 @@ export default {
   name: 'RevenueLastThreeYears',
   data() {
     return {
-      title: 'Revenue last 3 years',      
+      title: 'Revenue last 3 years',
       chartData: {
         labels: lastThreeYearsQuarters,
         datasets: companyArray.map((company, index) => ({
@@ -46,8 +46,8 @@ export default {
           borderColor: company.color,
           data: Array(15).fill(10 + index), // Beispielhafte Daten von 10 bis 16
           pointRadius: 0,
-          pointHoverRadius: 0
-        }))
+          pointHoverRadius: 0,
+        })),
       },
       chartOptions: {
         responsive: true,
@@ -78,7 +78,7 @@ export default {
               rotation: 17.04,
             },
             grid: {
-              color: '#FFFFFF',
+              color: '#9E9E9E',
             },
           },
           y: {
@@ -91,7 +91,7 @@ export default {
               stepSize: 30,
             },
             grid: {
-              color: '#FFFFFF',
+              color: '#9E9E9E',
             },
           },
         },

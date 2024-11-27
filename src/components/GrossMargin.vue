@@ -93,7 +93,7 @@ export default {
         datasets: [
           {
             backgroundColor: companyArray.map((item) => item.color),
-            data: [62.62, 40.15, 39.5, 24.51, 26.25, 6.81, 3.16],
+            data: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
             borderColor: '#FFFFFF',
             borderWidth: 1.5,
           },
@@ -127,7 +127,7 @@ export default {
             offset: -45,
             formatter: (value) => {
               return value + '%';
-            },            
+            },
           },
         },
         scales: {
@@ -137,13 +137,12 @@ export default {
             min: 0,
             max: 120,
             grid: {
-              color: '#FFFFFF',
-              borderColor: '#FFFFFF',
+              color: '#9E9E9E',
+              borderColor: '#9E9E9E',
               borderWidth: 0.5,
               offset: false,
             },
             ticks: {
-              color: '#FFFFFF',
               stepSize: 20,
               display: false,
             },
@@ -152,8 +151,8 @@ export default {
             min: 0,
             beginAtZero: true,
             grid: {
-              color: '#FFFFFF',
-              borderColor: '#FFFFFF',
+              color: '#9E9E9E',
+              borderColor: '#9E9E9E',
               borderWidth: 0.5,
               offset: true,
             },
