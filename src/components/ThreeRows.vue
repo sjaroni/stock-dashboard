@@ -17,14 +17,14 @@
         <RevenueBreakdown />
       </WidgetData>
     </div>
-    <div class="row rowThree">
-      <WidgetData width="33.33%" height="100%">
+    <div class="row rowThree">      
+      <WidgetData width="28.5%" height="100%">
         <NetIncome />
-      </WidgetData>
-      <WidgetData width="24.6%" height="100%">
+      </WidgetData>      
+        <WidgetData width="28.5%" height="100%">
         <GrossMargin />
       </WidgetData>
-      <WidgetData width="40.89%" height="100%">
+      <WidgetData width="40.89%" height="100%">        
         <RevenueGrowth />
       </WidgetData>
     </div>
