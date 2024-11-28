@@ -50,22 +50,34 @@ export default {
         datasets: [
           {
             label: 'Q4 2024',
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            color: 'FFFFFF',
+            backgroundColor: '#39DAFF',
+            borderColor: '#FFFFFF',
+            borderWidth: 1,
             data: [80, 55, 70, 85, 60, 50, 75], // Werte für Firma A bis G
           },
           {
             label: 'Q3 2024',
-            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            color: '#FFFFFF',
+            backgroundColor: '#31BFE2',
+            borderColor: '#FFFFFF',
+            borderWidth: 1,
             data: [60, 45, 65, 70, 55, 40, 65],
           },
           {
             label: 'Q2 2024',
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            color: '#FFFFFF',
+            backgroundColor: '#29A5C5',
+            borderColor: '#FFFFFF',
+            borderWidth: 1,
             data: [50, 35, 60, 55, 50, 30, 55],
           },
           {
             label: 'Q1 2024',
-            backgroundColor: 'rgba(255, 206, 86, 0.6)',
+            color: '#FFFFFF',
+            backgroundColor: '#218AA8',
+            borderColor: '#FFFFFF',
+            borderWidth: 1,
             data: [40, 25, 50, 45, 40, 20, 45],
           },
         ],
@@ -76,18 +88,37 @@ export default {
           legend: {
             position: 'right',
             labels: {
+              color: '#FFFFFF',
               font: {
-                size: 14,
+                size: 10,
               },
+              boxWidth: 20,
+              padding: 10,
+              hidden: false,
             },
           },
         },
         scales: {
+          x: {
+            ticks: {
+              color: '#FFFFFF',
+              font: {
+                size: 8,
+              },
+            },            
+          },
           y: {
             min: 0,
             max: 90,
             ticks: {
               stepSize: 10,
+              color: '#FFFFFF',
+            },            
+            grid: {
+              color: '#9E9E9E',
+              borderColor: '#9E9E9E',
+              borderWidth: 0.5,
+              offset: false,
             },
           },
         },
