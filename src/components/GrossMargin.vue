@@ -142,7 +142,8 @@ export default {
             },
             ticks: {
               stepSize: 20,
-              display: false,
+              display: true,
+              color: '#011f35',
             },
           },
           y: {
