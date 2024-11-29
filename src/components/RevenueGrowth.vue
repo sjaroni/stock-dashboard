@@ -11,6 +11,9 @@
 </template>
 
 <script>
+import { loadData } from '@/services/loadData';
+// import { normalizeQuarterFormat } from '@/helpers/formatQuarter';
+
 import ChartHeadline from './ChartHeadline.vue';
 import { Bar } from 'vue-chartjs';
 import {
@@ -44,34 +47,38 @@ export default {
   },
 
   created() {
-    // setTimeout(() => {
-    //   this.getCompanyData();
-    // }, 200);
-
-    this.getLastFourQuarters();
-    // this.chartData.datasets[0].data[index] = newValue;
+    setTimeout(() => {
+      this.loadContent();
+    }, 200);
   },
-
   methods: {
-    getLastFourQuarters() {
-      const date = new Date();
-      let currentQuarter = Math.floor(date.getMonth() / 3) + 1;
-      let currentYear = date.getFullYear();
+    async loadContent() {
+      await this.loadRevenueData();
+      this.rawQuarter = this.getQuarterName();
 
-      const results = [];
+      this.chartData.datasets[0].label = 'Qx Jahr';
+      this.chartData.datasets[1].label = 'Qx Jahr';
+      this.chartData.datasets[2].label = 'Qx Jahr';
+      this.chartData.datasets[3].label = 'Qx Jahr';
+    },
 
-      for (let i = 0; i < 4; i++) {
-        results.push(`Q${currentQuarter} ${currentYear}`);
-        currentQuarter--;
-        if (currentQuarter === 0) {
-          currentQuarter = 4;
-          currentYear--;
-        }
-        this.chartData.datasets[i].label = results[i];
-      }
+    async loadRevenueData() {
+      // companyArray.forEach(async (element, index) => {
+      companyArray.forEach(async (element) => {
+        this.revenueQuarterArr = await loadData.getFullCompanyData(
+          `${element.sheetName}`,
+          element['revenueQuarter'],
+        );
+      });
+    },
+
+    getQuarterName() {
+      return this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
     },
   },
 
+  //   // this.chartData.datasets[0].data[index] = newValue;
+  
   data() {
     return {
       // isLoading: true,
