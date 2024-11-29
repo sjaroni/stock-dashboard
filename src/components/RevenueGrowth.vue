@@ -5,7 +5,7 @@
       <p>load ...</p>
     </div>
     <div v-else class="chart">
-      <Bar :options="chartOptions" :data="chartData" :plugins="chartPlugins" />
+      <Bar :options="chartOptions" :data="chartData" />
     </div>
   </div>
 </template>
@@ -42,14 +42,45 @@ export default {
     ChartHeadline,
     Bar,
   },
+
+  created() {
+    // setTimeout(() => {
+    //   this.getCompanyData();
+    // }, 200);
+
+    this.getLastFourQuarters();
+    // this.chartData.datasets[0].data[index] = newValue;
+  },
+
+  methods: {
+    getLastFourQuarters() {
+      const date = new Date();
+      let currentQuarter = Math.floor(date.getMonth() / 3) + 1;
+      let currentYear = date.getFullYear();
+
+      const results = [];
+
+      for (let i = 0; i < 4; i++) {
+        results.push(`Q${currentQuarter} ${currentYear}`);
+        currentQuarter--;
+        if (currentQuarter === 0) {
+          currentQuarter = 4;
+          currentYear--;
+        }
+        this.chartData.datasets[i].label = results[i];
+      }
+    },
+  },
+
   data() {
     return {
+      // isLoading: true,
+      isLoading: false,
       title: 'Revenue Growth in % YoY',
       chartData: {
         labels: companyArray.map((item) => item.companyName),
         datasets: [
           {
-            label: 'Q4 2024',
             color: 'FFFFFF',
             backgroundColor: '#39DAFF',
             borderColor: '#FFFFFF',
@@ -57,7 +88,6 @@ export default {
             data: [80, 55, 70, 85, 60, 50, 75], // Werte für Firma A bis G
           },
           {
-            label: 'Q3 2024',
             color: '#FFFFFF',
             backgroundColor: '#31BFE2',
             borderColor: '#FFFFFF',
@@ -65,7 +95,6 @@ export default {
             data: [60, 45, 65, 70, 55, 40, 65],
           },
           {
-            label: 'Q2 2024',
             color: '#FFFFFF',
             backgroundColor: '#29A5C5',
             borderColor: '#FFFFFF',
@@ -73,7 +102,6 @@ export default {
             data: [50, 35, 60, 55, 50, 30, 55],
           },
           {
-            label: 'Q1 2024',
             color: '#FFFFFF',
             backgroundColor: '#218AA8',
             borderColor: '#FFFFFF',
@@ -105,7 +133,7 @@ export default {
               font: {
                 size: 8,
               },
-            },            
+            },
           },
           y: {
             min: 0,
@@ -113,7 +141,7 @@ export default {
             ticks: {
               stepSize: 10,
               color: '#FFFFFF',
-            },            
+            },
             grid: {
               color: '#9E9E9E',
               borderColor: '#9E9E9E',
