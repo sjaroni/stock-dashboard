@@ -54,8 +54,8 @@ export default {
   methods: {
     async loadContent() {
       await this.loadRevenueData();
-      this.rawQuarter = this.getQuarterName();
-
+      
+      this.rawQuarter = await this.getQuarterName();
       this.chartData.datasets[0].label = 'Qx Jahr';
       this.chartData.datasets[1].label = 'Qx Jahr';
       this.chartData.datasets[2].label = 'Qx Jahr';
@@ -73,7 +73,9 @@ export default {
     },
 
     getQuarterName() {
-      return this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+      if(this.revenueQuarterArr){
+        return this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+      }
     },
   },
 
