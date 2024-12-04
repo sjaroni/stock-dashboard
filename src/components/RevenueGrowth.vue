@@ -11,9 +11,6 @@
 </template>
 
 <script>
-import { loadData } from '@/services/loadData';
-// import { normalizeQuarterFormat } from '@/helpers/formatQuarter';
-
 import ChartHeadline from './ChartHeadline.vue';
 import { Bar } from 'vue-chartjs';
 import {
@@ -27,6 +24,7 @@ import {
   LinearScale,
 } from 'chart.js';
 import { companyArray } from '@/helpers/companyArray.js';
+import { loadData } from '@/services/loadData';
 
 ChartJS.register(
   Title,
@@ -40,7 +38,6 @@ ChartJS.register(
 
 export default {
   name: 'RevenueGrowth',
-
   components: {
     ChartHeadline,
     Bar,
@@ -50,72 +47,96 @@ export default {
     setTimeout(() => {
       this.loadContent();
     }, 200);
+    this.setChartLabels();
   },
+
   methods: {
     async loadContent() {
-      await this.loadRevenueData();
-      
-      this.rawQuarter = await this.getQuarterName();
-      this.chartData.datasets[0].label = 'Qx Jahr';
-      this.chartData.datasets[1].label = 'Qx Jahr';
-      this.chartData.datasets[2].label = 'Qx Jahr';
-      this.chartData.datasets[3].label = 'Qx Jahr';
+      await this.loadRevenueGrowthData();
     },
 
-    async loadRevenueData() {
-      // companyArray.forEach(async (element, index) => {
-      companyArray.forEach(async (element) => {
-        this.revenueQuarterArr = await loadData.getFullCompanyData(
+    async loadRevenueGrowthData() {
+      companyArray.forEach(async (element, index) => {
+        this.revenueGrowthArr = await loadData.getFullCompanyData(
           `${element.sheetName}`,
-          element['revenueQuarter'],
+          element['revenueGrowthRow'],
+        );
+        await this.getLastFourValuesFromEachCompany(
+          this.revenueGrowthArr,
+          index,
         );
       });
     },
 
-    getQuarterName() {
-      if(this.revenueQuarterArr){
-        return this.revenueQuarterArr[Object.keys(this.revenueQuarterArr).pop()];
+    setChartLabels() {
+      const date = new Date();
+      let currentQuarter = Math.floor(date.getMonth() / 3);
+      let currentYear = date.getFullYear();
+
+      const results = [];
+
+      for (let i = 3; i >= 0; i--) {
+        results[i] = `Q${currentQuarter} ${currentYear}`;
+        this.chartData.datasets[i].label = results[i];
+        currentQuarter--;
+        if (currentQuarter === 0) {
+          currentQuarter = 4;
+          currentYear--;
+        }
       }
+    },
+
+    async getLastFourValuesFromEachCompany(arr, index) {
+      const keys = Object.keys(arr);
+      const lastFourKeys = keys.slice(-4);
+
+      this.lastFourValues = lastFourKeys.map((key) => {
+        return parseFloat(arr[key].replace(',', '.'));
+      });
+
+      await this.setChartData(this.lastFourValues, index);
+    },
+
+    async setChartData(results, index) {
+      for (let i = 0; i < 4; i++) {
+        this.chartData.datasets[i].data[index] = results[i];
+      }
+      this.isLoading = false;
     },
   },
 
-  //   // this.chartData.datasets[0].data[index] = newValue;
-  
   data() {
+    const commonDatasetSettings = {
+      color: '#FFFFFF',
+      borderColor: '#FFFFFF',
+      borderWidth: 1,
+    };
+
     return {
-      // isLoading: true,
-      isLoading: false,
+      isLoading: true,
       title: 'Revenue Growth in % YoY',
       chartData: {
         labels: companyArray.map((item) => item.companyName),
         datasets: [
           {
-            color: 'FFFFFF',
-            backgroundColor: '#39DAFF',
-            borderColor: '#FFFFFF',
-            borderWidth: 1,
-            data: [80, 55, 70, 85, 60, 50, 75], // Werte für Firma A bis G
-          },
-          {
-            color: '#FFFFFF',
-            backgroundColor: '#31BFE2',
-            borderColor: '#FFFFFF',
-            borderWidth: 1,
-            data: [60, 45, 65, 70, 55, 40, 65],
-          },
-          {
-            color: '#FFFFFF',
-            backgroundColor: '#29A5C5',
-            borderColor: '#FFFFFF',
-            borderWidth: 1,
-            data: [50, 35, 60, 55, 50, 30, 55],
-          },
-          {
-            color: '#FFFFFF',
+            ...commonDatasetSettings,
             backgroundColor: '#218AA8',
-            borderColor: '#FFFFFF',
-            borderWidth: 1,
-            data: [40, 25, 50, 45, 40, 20, 45],
+            data: [],
+          },
+          {
+            ...commonDatasetSettings,
+            backgroundColor: '#29A5C5',
+            data: [],
+          },
+          {
+            ...commonDatasetSettings,
+            backgroundColor: '#31BFE2',
+            data: [],
+          },
+          {
+            ...commonDatasetSettings,
+            backgroundColor: '#39DAFF',
+            data: [],
           },
         ],
       },
@@ -145,8 +166,7 @@ export default {
             },
           },
           y: {
-            min: 0,
-            max: 90,
+            max: 80,
             ticks: {
               stepSize: 10,
               color: '#FFFFFF',
