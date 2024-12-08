@@ -101,7 +101,10 @@ export default {
       for (let i = 0; i < 4; i++) {
         this.chartData.datasets[i].data[index] = results[i];
       }
-      this.isLoading = false;
+      
+      if(index === 6){
+        this.isLoading = false;
+      }
     },
   },
 

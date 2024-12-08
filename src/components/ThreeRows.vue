@@ -1,6 +1,6 @@
 <template>
   <div class="three-rows-container">
-    <div class="row rowOne">
+    <div class="row row-one">
       <WidgetData width="100%" height="100%">
         <CompanyCard
           v-for="(company, index) in companyArray"
@@ -9,29 +9,30 @@
         />
       </WidgetData>
     </div>
-    <div class="row rowTwo">
-     <WidgetData width="59.11%" height="100%">
+    <div class="row row-two">
+      <WidgetData width="59.11%" height="352px">
         <RevenueLastThreeYears />
       </WidgetData>
-      <WidgetData width="40.89%" height="100%">
+      <WidgetData width="40.89%" height="352px">
         <RevenueBreakdown />
       </WidgetData>
     </div>
-    <div class="row rowThree">      
+    <!-- <div class="row row-three">
       <WidgetData width="28.5%" height="100%">
         <NetIncome />
-      </WidgetData>      
-        <WidgetData width="28.5%" height="100%">
+      </WidgetData>
+      <WidgetData width="28.5%" height="100%">
         <GrossMargin />
       </WidgetData>
-      <WidgetData width="40.89%" height="100%">        
+      <WidgetData width="40.89%" height="100%">
         <RevenueGrowth />
       </WidgetData>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import { companyArray } from '@/helpers/companyArray';
 import WidgetData from './WidgetData.vue';
 import CompanyCard from './CompanyCard.vue';
@@ -80,18 +81,29 @@ export default {
   border-radius: 20px;
 }
 
-.rowOne {
+.row-one {
   height: 191px;
   background: #023a6233;
   padding: 0 24px;
   overflow: hidden;
 }
 
-.rowTwo {
+.row-two {
   height: 352px;
+  align-items: center;
 }
 
-.rowThree {
+.row-three {
   height: 296px;
 }
+
+@media screen and (max-width: 992px){
+  .row-two{
+    /* background-color: pink; */
+    height: 728px;
+    flex-wrap: wrap;    
+    justify-content: center;
+  }
+}
+
 </style>
