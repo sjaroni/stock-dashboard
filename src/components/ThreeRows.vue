@@ -17,7 +17,7 @@
         <RevenueBreakdown />
       </WidgetData>
     </div>
-    <!-- <div class="row row-three">
+    <div class="row row-three">
       <WidgetData width="28.5%" height="100%">
         <NetIncome />
       </WidgetData>
@@ -27,7 +27,7 @@
       <WidgetData width="40.89%" height="100%">
         <RevenueGrowth />
       </WidgetData>
-    </div> -->
+    </div>
   </div>
 </template>
 
