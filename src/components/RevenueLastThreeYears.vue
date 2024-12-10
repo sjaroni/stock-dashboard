@@ -35,6 +35,12 @@ ChartJS.register(
 
 export default {
   name: 'RevenueLastThreeYears',
+
+  components: {
+    ChartHeadline,
+    Line,
+  },
+
   data() {
     return {
       title: 'Revenue last 3 years',
@@ -44,6 +50,7 @@ export default {
           label: company.companyName,
           backgroundColor: company.color,
           borderColor: company.color,
+          borderWidth: 1,
           data: Array(15).fill(10 + index), // Beispielhafte Daten von 10 bis 16
           pointRadius: 0,
           pointHoverRadius: 0,
@@ -57,11 +64,15 @@ export default {
             position: 'right',
             labels: {
               color: '#FFFFFF',
+              borderColor: '#FFFFFF',
+              borderWidth: 1,
+              boxWidth: 32,
+              boxHeight: 12,
             },
           },
         },
         scales: {
-          x: {
+          x: {            
             title: {
               display: true,
               color: '#FFFFFF',
@@ -74,14 +85,15 @@ export default {
                 weight: '400',
                 lineHeight: 1.185,
               },
-              align: 'right',
-              rotation: 17.04,
+              align: 'center',
+              maxRotation: 17.04,
+              minRotation: 17.04,
             },
             grid: {
               color: '#9E9E9E',
             },
           },
-          y: {
+          y: {            
             title: {
               display: true,
               color: '#FFFFFF',
@@ -97,10 +109,6 @@ export default {
         },
       },
     };
-  },
-  components: {
-    ChartHeadline,
-    Line,
   },
 };
 </script>

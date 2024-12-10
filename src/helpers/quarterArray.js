@@ -6,7 +6,7 @@ export function generateLastThreeYearsQuarters() {
 
   const result = [];
 
-  for (let year = currentYear; year >= currentYear - 3; year--) {
+  for (let year = currentYear; year > currentYear - 3; year--) {
     for (let q = currentQuarter; q > 0; q--) {
       result.unshift(`${quarters[q - 1]} ${year}`);
     }
