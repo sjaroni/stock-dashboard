@@ -9,6 +9,7 @@ export const companyArray = [
     grossMarginRow: 21,
     icon: require('@/assets/icons/apple.svg'),
     color: '#39DAFF',
+    additional_values: [],
   },
   {
     sheetName: '$META',
@@ -20,6 +21,7 @@ export const companyArray = [
     grossMarginRow: 9,
     icon: require('@/assets/icons/meta.svg'),
     color: '#31BFE2',
+    additional_values: [],
   },
   {
     sheetName: '$MSFT',
@@ -31,6 +33,20 @@ export const companyArray = [
     grossMarginRow: 14,
     icon: require('@/assets/icons/microsoft.svg'),
     color: '#29A5C5',
+    additional_values: [
+      '51,728',
+      '49,360',
+      '51,865',
+      '50,122',
+      '52,747',
+      '52,857',
+      '56,189',
+      '56,517',
+      '62,020',
+      '61,858',
+      '64,727',
+      '65,585',
+    ],
   },
   {
     sheetName: '$GOOG',
@@ -42,6 +58,7 @@ export const companyArray = [
     grossMarginRow: 29,
     icon: require('@/assets/icons/google.svg'),
     color: '#218AA8',
+    additional_values: [],
   },
   {
     sheetName: '$AMZN',
@@ -53,6 +70,7 @@ export const companyArray = [
     grossMarginRow: 13,
     icon: require('@/assets/icons/amazon.svg'),
     color: '#196F8C',
+    additional_values: [],
   },
   {
     sheetName: '$TSLA',
@@ -64,6 +82,20 @@ export const companyArray = [
     grossMarginRow: 26,
     icon: require('@/assets/icons/tesla.svg'),
     color: '#11546F',
+    additional_values: [
+      '17,719',
+      '18,756',
+      '16,934',
+      '21,454',
+      '24,318',
+      '23,329',
+      '24,927',
+      '23,350',
+      '25,167',
+      '21,301',
+      '25,500',
+      '25,182',
+    ],
   },
   {
     sheetName: '$NVDA',
@@ -75,5 +107,6 @@ export const companyArray = [
     grossMarginRow: 9,
     icon: require('@/assets/icons/nvidia.svg'),
     color: '#093A52',
+    additional_values: [],
   },
 ];

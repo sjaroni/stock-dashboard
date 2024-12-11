@@ -1,13 +1,17 @@
 <template>
   <div class="content">
     <ChartHeadline :headlineTitle="title"></ChartHeadline>
-    <div class="chart">
+    <div v-if="isLoading">
+      <p>load ...</p>
+    </div>
+    <div v-else class="chart">
       <Line :options="chartOptions" :data="chartData" />
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 import ChartHeadline from './ChartHeadline.vue';
 import { Line } from 'vue-chartjs';
 import {
@@ -22,6 +26,7 @@ import {
 } from 'chart.js';
 import { companyArray } from '@/helpers/companyArray.js';
 import { lastThreeYearsQuarters } from '@/helpers/quarterArray.js';
+import { loadData } from '@/services/loadData';
 
 ChartJS.register(
   CategoryScale,
@@ -41,8 +46,51 @@ export default {
     Line,
   },
 
+  methods: {
+    async getCompanyData() {
+      companyArray.forEach(async (element, index) => {
+        if (element.sheetName === '$MSFT' || element.sheetName === '$TSLA') {
+          this.revenueValueArr = element.additional_values;
+        } else {
+          this.revenueValueArr = await loadData.getFullCompanyData(
+            `${element.sheetName}`,
+            element['revenueRow'],
+          );
+        }
+        this.getValuesFromEachCompany(index);
+      });
+    },
+
+    async getValuesFromEachCompany(index) {
+      const keys = Object.keys(this.revenueValueArr);
+      const lastKeys = keys.slice(-12);
+
+      this.lastValues = lastKeys.map((key) => {
+        return parseFloat(this.revenueValueArr[key].replace(',', '.'));
+      });
+
+      await this.setChartData(this.lastValues, index);
+    },
+
+    async setChartData(results, index) {
+      for (let i = 0; i < 12; i++) {
+        this.chartData.datasets[index].data[i] = results[i];
+      }
+
+      if (index === 6) {
+        this.isLoading = false;
+      }
+    },
+  },
+  created() {
+    setTimeout(() => {
+      this.getCompanyData();
+    }, 200);
+  },
+
   data() {
     return {
+      isLoading: true,
       title: 'Revenue last 3 years',
       chartData: {
         labels: lastThreeYearsQuarters,
@@ -51,7 +99,7 @@ export default {
           backgroundColor: company.color,
           borderColor: company.color,
           borderWidth: 1,
-          data: Array(15).fill(10 + index), // Beispielhafte Daten von 10 bis 16
+          data: [],
           pointRadius: 0,
           pointHoverRadius: 0,
         })),
@@ -72,7 +120,7 @@ export default {
           },
         },
         scales: {
-          x: {            
+          x: {
             title: {
               display: true,
               color: '#FFFFFF',
@@ -93,7 +141,7 @@ export default {
               color: '#9E9E9E',
             },
           },
-          y: {            
+          y: {
             title: {
               display: true,
               color: '#FFFFFF',
