@@ -73,10 +73,45 @@ export default {
     },
 
     async setChartData(results, index) {
-      for (let i = 0; i < 12; i++) {
-        this.chartData.datasets[index].data[i] = results[i];
+      const maxQuarter = this.getMaxQuarterAndAdjustResults(results, index);
+      this.populateChartData(results, index, maxQuarter);
+      this.finalizeLoading(index);
+    },
+
+    getMaxQuarterAndAdjustResults(results, index) {
+      let maxQuarter = 12;
+
+      switch (index) {
+        case 1:
+        case 3:
+          maxQuarter = 11;
+          results.shift();
+          break;
+        case 4:
+          maxQuarter = 10;
+          results.shift(2);
+          break;
+        case 6:
+          maxQuarter = 12;
+          this.adjustResultsForIndexSix(results);
+          break;
       }
 
+      return maxQuarter;
+    },
+
+    adjustResultsForIndexSix(results) {
+      results.unshift('', '', '');
+      results.splice(-3, 3);
+    },
+
+    populateChartData(results, index, maxQuarter) {
+      for (let i = 0; i < maxQuarter; i++) {
+        this.chartData.datasets[index].data[i] = results[i];
+      }
+    },
+
+    finalizeLoading(index) {
       if (index === 6) {
         this.isLoading = false;
       }
@@ -98,7 +133,7 @@ export default {
           label: company.companyName,
           backgroundColor: company.color,
           borderColor: company.color,
-          borderWidth: 1,
+          borderWidth: 2,
           data: [],
           pointRadius: 0,
           pointHoverRadius: 0,
