@@ -29,9 +29,24 @@ export default {
 .widget-content {
   display: flex;
   justify-content: flex-start;
-  align-items: center;  
+  align-items: center;
   gap: 24px;
   flex-direction: row;
   height: 100%;
+}
+
+@media screen and (max-width: 1280px) {
+
+
+  .widget-container{
+    height: unset;
+  }
+
+  .widget-content {
+    display: flex;
+    flex: 1 1 calc(33% - 16px);
+    flex-wrap: wrap;
+    justify-content: center;    
+  }
 }
 </style>

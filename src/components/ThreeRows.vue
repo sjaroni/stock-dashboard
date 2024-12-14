@@ -1,7 +1,7 @@
 <template>
   <div class="three-rows-container">
     <div class="row row-one">
-      <WidgetData width="100%" height="100%">
+      <WidgetData class="widget-data" width="100%" height="100%">
         <CompanyCard
           v-for="(company, index) in companyArray"
           :key="index"
@@ -88,7 +88,7 @@ export default {
   padding: 0 24px;
   overflow: hidden;
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .row-two {
@@ -101,18 +101,20 @@ export default {
 }
 
 @media screen and (max-width: 1280px) {
-
   .three-rows-container {
     width: 95%;
   }
 
-  .row-one{
-    flex: 1 1 calc(50% - 16px); /* Standard: 3 Spalten */
-    box-sizing: border-box;
+  .row-one {
+    flex-wrap: wrap;
+    height: 382px;
+
+    .widget-data {
+      height: 80% !important;
+    }
   }
 
   .row-two {
-    /* background-color: pink; */
     height: 728px;
     flex-wrap: wrap;
     justify-content: center;
