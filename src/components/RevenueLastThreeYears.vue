@@ -11,7 +11,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import ChartHeadline from './ChartHeadline.vue';
 import { Line } from 'vue-chartjs';
 import {
@@ -129,7 +128,7 @@ export default {
       title: 'Revenue last 3 years',
       chartData: {
         labels: lastThreeYearsQuarters,
-        datasets: companyArray.map((company, index) => ({
+        datasets: companyArray.map((company) => ({
           label: company.companyName,
           backgroundColor: company.color,
           borderColor: company.color,

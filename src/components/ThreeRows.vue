@@ -71,6 +71,7 @@ export default {
   top: 155px;
   position: absolute;
   width: 1240px;
+  padding-bottom: 64px;
 }
 
 .row {
@@ -86,6 +87,8 @@ export default {
   background: #023a6233;
   padding: 0 24px;
   overflow: hidden;
+  display: flex;
+  flex-wrap: wrap; 
 }
 
 .row-two {
@@ -97,13 +100,29 @@ export default {
   height: 296px;
 }
 
-@media screen and (max-width: 992px){
-  .row-two{
+@media screen and (max-width: 1280px) {
+
+  .three-rows-container {
+    width: 95%;
+  }
+
+  .row-one{
+    flex: 1 1 calc(50% - 16px); /* Standard: 3 Spalten */
+    box-sizing: border-box;
+  }
+
+  .row-two {
     /* background-color: pink; */
     height: 728px;
-    flex-wrap: wrap;    
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .row-three {
+    /* background-color: pink; */
+    /* height: 728px; */
+    flex-wrap: wrap;
     justify-content: center;
   }
 }
-
 </style>

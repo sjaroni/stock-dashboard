@@ -1,9 +1,10 @@
 <template>
-  <HeadLine />
+  <!-- <HeadLine /> -->
   <ThreeRows />
 </template>
 
 <script>
+/* eslint-disable */
 import HeadLine from './components/HeadLine.vue';
 import ThreeRows from './components/ThreeRows.vue';
 import { loadData } from '@/services/loadData';
@@ -62,5 +63,19 @@ body {
   padding: 100px;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+@media screen and (max-width: 1440px){
+  #app{    
+    padding: 10px;
+    width: 100%;    
+    /* flex-wrap: wrap;     */
+    /* display: flex;
+    align-items: center; */
+  }
+}
+
 </style>
