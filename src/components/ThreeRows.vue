@@ -1,7 +1,7 @@
 <template>
   <div class="three-rows-container">
     <div class="row row-one">
-      <WidgetData class="widget-data" width="100%" height="100%">
+      <WidgetData class="widget-data-one" width="100%" height="100%">
         <CompanyCard
           v-for="(company, index) in companyArray"
           :key="index"
@@ -10,21 +10,21 @@
       </WidgetData>
     </div>
     <div class="row row-two">
-      <WidgetData width="59.11%" height="352px">
+      <WidgetData class="widget-data-two" width="59.11%" height="352px">
         <RevenueLastThreeYears />
       </WidgetData>
-      <WidgetData width="40.89%" height="352px">
+      <WidgetData class="widget-data-two" width="40.89%" height="352px">
         <RevenueBreakdown />
       </WidgetData>
     </div>
     <div class="row row-three">
-      <WidgetData width="28.5%" height="100%">
+      <WidgetData  class="widget-data-three" width="28.5%" height="100%">
         <NetIncome />
       </WidgetData>
-      <WidgetData width="28.5%" height="100%">
+      <WidgetData class="widget-data-three" width="28.5%" height="100%">
         <GrossMargin />
       </WidgetData>
-      <WidgetData width="40.89%" height="100%">
+      <WidgetData class="widget-data-three" width="40.89%" height="100%">
         <RevenueGrowth />
       </WidgetData>
     </div>
@@ -102,14 +102,14 @@ export default {
 
 @media screen and (max-width: 1280px) {
   .three-rows-container {
-    width: 95%;
+    width: 90%;
   }
 
   .row-one {
     flex-wrap: wrap;
     height: 382px;
 
-    .widget-data {
+    .widget-data-one {
       height: 80% !important;
     }
   }
@@ -118,13 +118,20 @@ export default {
     height: 728px;
     flex-wrap: wrap;
     justify-content: center;
+    
+    .widget-data-two {
+      width: 100% !important;
+    }
   }
 
   .row-three {
-    /* background-color: pink; */
-    /* height: 728px; */
+    height: 296px;
     flex-wrap: wrap;
     justify-content: center;
+    
+    .widget-data-three {
+      width: 100% !important;
+    }
   }
 }
 </style>

@@ -219,7 +219,7 @@ export default {
     margin-block-start: 0;
     margin-block-end: 0;
     font-family: Rubik;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 500;
     line-height: 23.7px;
     text-align: left;
@@ -234,9 +234,9 @@ export default {
   align-items: flex-start;
 
   .text {
-    font-size: 12px;
+    font-size: .75rem;
     font-weight: 400;
-    line-height: 14.22px;
+    line-height: .89rem;
     text-align: left;
   }
 
@@ -249,17 +249,17 @@ export default {
     height: 40px;
 
     .revenueValue {
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: 500;
-      line-height: 28.44px;
+      line-height: 1.8rem;
       text-align: left;
     }
 
     .right {
       font-family: Rubik;
-      font-size: 13px;
+      font-size: .8rem;
       font-weight: 500;
-      line-height: 15.41px;
+      line-height: .96rem;
       text-align: left;
       width: 54px;
     }
@@ -293,9 +293,9 @@ export default {
   }
 
   .currency {
-    font-size: 8px;
+    font-size: .5rem;
     font-weight: 400;
-    line-height: 9.48px;
+    line-height: .59rem;
     text-align: left;
   }
 }

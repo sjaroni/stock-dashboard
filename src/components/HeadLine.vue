@@ -4,7 +4,11 @@
     <div class="text">
       The Magnificent Seven Companies
       <div class="info">
-        <img @click="toggleInfoBox" src="../assets/icons/info.svg" alt="Info Icon" />
+        <img
+          @click="toggleInfoBox"
+          src="../assets/icons/info.svg"
+          alt="Info Icon"
+        />
       </div>
     </div>
   </div>
@@ -22,13 +26,13 @@
 export default {
   name: 'HeadLine',
   methods: {
-    toggleInfoBox() {      
-      const infoTextElement = document.getElementById("info-text");
+    toggleInfoBox() {
+      const infoTextElement = document.getElementById('info-text');
       if (infoTextElement) {
-        infoTextElement.classList.toggle("d-none");
+        infoTextElement.classList.toggle('d-none');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -53,7 +57,7 @@ export default {
 
 .text {
   font-weight: 500;
-  font-size: 36px;
+  font-size: 2.25rem;
   line-height: 42.66px;
   color: #f9f9f9;
   display: flex;
@@ -65,7 +69,7 @@ export default {
     text-align: right;
     position: relative;
     width: 20%;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: 20px;
 
@@ -90,7 +94,7 @@ export default {
   transform: translate(-50%, 0);
   min-height: 10vh;
   min-width: 20%;
-  background: #39DAFF;
+  background: #39daff;
   border-radius: 16px;
   z-index: 3;
   padding: 40px;
@@ -111,5 +115,11 @@ export default {
 
 .d-none {
   display: none !important;
+}
+
+@media screen and (max-width: 1440px) {
+  .headLine {
+    width: 90%;
+  }
 }
 </style>

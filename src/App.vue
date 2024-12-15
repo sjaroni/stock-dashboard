@@ -1,5 +1,5 @@
 <template>
-  <!-- <HeadLine /> -->
+  <HeadLine />
   <ThreeRows />
 </template>
 

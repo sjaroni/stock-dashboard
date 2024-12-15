@@ -17,9 +17,9 @@ export default {
 
 <style scoped>
 .chartHeadline {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 600;
-  line-height: 20px;
+  line-height: 1.25rem;
   text-align: left;
 }
 </style>

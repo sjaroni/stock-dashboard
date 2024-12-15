@@ -44,7 +44,6 @@ export default {
 
   .widget-content {
     display: flex;
-    flex: 1 1 calc(33% - 16px);
     flex-wrap: wrap;
     justify-content: center;    
   }
