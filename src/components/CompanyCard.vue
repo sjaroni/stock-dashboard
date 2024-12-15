@@ -189,7 +189,7 @@ export default {
 .companyCard {
   background: #011f35;
   box-sizing: border-box;
-  padding: 20px 24px;
+  padding: 1.25rem 1.5rem;
   border-radius: 16px;
   color: #ffffff;
   width: 187px;

@@ -220,9 +220,9 @@ export default {
   position: absolute;
   right: 0;
   bottom: 8px;
-  font-size: 8px;
+  font-size: .5rem;
   font-weight: 400;
-  line-height: 9.48px;
+  line-height: .6rem;
   text-align: right;
 }
 </style>

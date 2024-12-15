@@ -58,7 +58,7 @@ export default {
 .text {
   font-weight: 500;
   font-size: 2.25rem;
-  line-height: 42.66px;
+  line-height: 2.67rem;
   color: #f9f9f9;
   display: flex;
   justify-content: space-between;
@@ -71,7 +71,7 @@ export default {
     width: 20%;
     font-size: 1.25rem;
     font-weight: 600;
-    line-height: 20px;
+    line-height: 1.25rem;
 
     img {
       height: 32px;
@@ -120,6 +120,14 @@ export default {
 @media screen and (max-width: 1440px) {
   .headLine {
     width: 90%;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .headLine {
+    .text {
+      font-size: 1.5rem;
+    }
   }
 }
 </style>

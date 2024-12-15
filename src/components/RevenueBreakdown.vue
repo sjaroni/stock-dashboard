@@ -35,18 +35,18 @@ export default {
           `${element.sheetName}`,
           element['revenueRow'],
         );
-        
+
         this.getLastFourValuesFromEachCompany(index);
       });
     },
 
     getLastFourValuesFromEachCompany(index) {
       const keys = Object.keys(this.revenueValueArr);
-      const lastFourKeys = keys.slice(-4);      
+      const lastFourKeys = keys.slice(-4);
 
       this.lastFourValues = lastFourKeys.map((key) => {
         return parseFloat(this.revenueValueArr[key].replace(',', '.'));
-      });      
+      });
 
       this.sumLastFourValues = this.lastFourValues.reduce(
         (sum, value) => sum + (value || 0),
@@ -153,9 +153,9 @@ export default {
   position: absolute;
   right: 0;
   bottom: 8px;
-  font-size: 8px;
+  font-size: .5rem;
   font-weight: 400;
-  line-height: 9.48px;
+  line-height: .6rem;
   text-align: right;
 }
 </style>

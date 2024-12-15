@@ -32,7 +32,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import { companyArray } from '@/helpers/companyArray';
 import WidgetData from './WidgetData.vue';
 import CompanyCard from './CompanyCard.vue';

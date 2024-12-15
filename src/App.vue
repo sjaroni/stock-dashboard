@@ -4,7 +4,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import HeadLine from './components/HeadLine.vue';
 import ThreeRows from './components/ThreeRows.vue';
 import { loadData } from '@/services/loadData';
@@ -15,37 +14,37 @@ export default {
     HeadLine,
     ThreeRows,
   },
-  beforeCreate(){    
+  beforeCreate() {
     loadData.checkLastData();
-  }
+  },
 };
 </script>
 
 <style>
-*{
-  scrollbar-color: #39DAFF;
+* {
+  scrollbar-color: #39daff;
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
-    height: 6px;
+  width: 4px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #39DAFF;
-    border-radius: 2px;
+  background-color: #39daff;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #00000000;
-    border: 1px solid #00000000;
+  background-color: #00000000;
+  border: 1px solid #00000000;
 }
 
 body {
   margin: 0;
   font-family: 'Rubik', sans-serif;
   display: flex;
-  justify-content: center;  
+  justify-content: center;
   height: 100vh;
   background: radial-gradient(
     71.11% 100% at 50% 0%,
@@ -58,7 +57,7 @@ body {
 #app {
   position: relative;
   width: 100vw;
-  max-width: 1440px;  
+  max-width: 1440px;
   height: 100%;
   padding: 100px;
   box-sizing: border-box;
@@ -68,14 +67,16 @@ body {
   align-items: center;
 }
 
-@media screen and (max-width: 1440px){
-  #app{    
+@media screen and (max-width: 1440px) {
+  #app {
     padding: 10px;
-    width: 100%;    
-    /* flex-wrap: wrap;     */
-    /* display: flex;
-    align-items: center; */
+    width: 100%;
   }
 }
 
+@media screen and (max-width: 1024px) {
+  * {
+    font-size: 12px;
+  }
+}
 </style>

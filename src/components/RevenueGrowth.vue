@@ -143,8 +143,9 @@ export default {
           },
         ],
       },
-      chartOptions: {
+      chartOptions: {        
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'right',
