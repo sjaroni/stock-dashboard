@@ -299,4 +299,12 @@ export default {
     text-align: left;
   }
 }
+
+@media screen and (max-width: 440px) {
+  .companyCard {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
 </style>

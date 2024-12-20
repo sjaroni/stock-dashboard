@@ -220,9 +220,15 @@ export default {
   position: absolute;
   right: 0;
   bottom: 8px;
-  font-size: .5rem;
+  font-size: 0.5rem;
   font-weight: 400;
-  line-height: .6rem;
+  line-height: 0.6rem;
   text-align: right;
+}
+
+@media screen and (max-width: 440px) {
+  .content {
+    padding: 16px;
+  }
 }
 </style>

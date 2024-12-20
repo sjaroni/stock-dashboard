@@ -158,4 +158,10 @@ export default {
   line-height: .6rem;
   text-align: right;
 }
+
+@media screen and (max-width: 440px) {
+  .content {
+    padding: 16px;
+  }
+}
 </style>
