@@ -3,6 +3,7 @@
     <ChartHeadline :headlineTitle="title"></ChartHeadline>
     <div v-if="isLoading">
       <p>load ...</p>
+      <div class="spinner"></div>
     </div>
     <div v-else class="chart">
       <Doughnut :options="chartOptions" :data="chartData" />
@@ -157,6 +158,24 @@ export default {
   font-weight: 400;
   line-height: .6rem;
   text-align: right;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 440px) {
