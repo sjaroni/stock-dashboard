@@ -71,20 +71,23 @@ export default {
 
     setChartLabels() {
       const date = new Date();
-      let currentQuarter = Math.floor(date.getMonth() / 3);
+      let currentQuarter = Math.ceil((date.getMonth() + 1) / 3);
       let currentYear = date.getFullYear();
 
       const results = [];
 
-      for (let i = 3; i >= 0; i--) {
-        results[i] = `Q${currentQuarter} ${currentYear}`;
-        this.chartData.datasets[i].label = results[i];
+      for (let i = 0; i < 4; i++) {
+        results.push(`Q${currentQuarter}-${currentYear}`);
         currentQuarter--;
         if (currentQuarter === 0) {
           currentQuarter = 4;
           currentYear--;
         }
       }
+
+      this.chartData.datasets.forEach((dataset, index) => {
+        dataset.label = results[index] || '';
+      });
     },
 
     async getLastFourValuesFromEachCompany(arr, index) {
@@ -102,8 +105,8 @@ export default {
       for (let i = 0; i < 4; i++) {
         this.chartData.datasets[i].data[index] = results[i];
       }
-      
-      if(index === 6){
+
+      if (index === 6) {
         this.isLoading = false;
       }
     },
@@ -144,7 +147,7 @@ export default {
           },
         ],
       },
-      chartOptions: {        
+      chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {

@@ -33,8 +33,7 @@ export const companyArray = [
     grossMarginRow: 14,
     icon: require('@/assets/icons/microsoft.svg'),
     color: '#29A5C5',
-    additional_values: [
-      '45,317',
+    additional_values: [      
       '51,728',
       '49,360',
       '51,865',
@@ -46,6 +45,7 @@ export const companyArray = [
       '62,020',
       '61,858',
       '64,727',
+      '65,585',
     ],
   },
   {
@@ -83,7 +83,6 @@ export const companyArray = [
     icon: require('@/assets/icons/tesla.svg'),
     color: '#11546F',
     additional_values: [      
-      '18,756',
       '16,934',
       '21,454',
       '24,318',
@@ -94,6 +93,7 @@ export const companyArray = [
       '21,301',
       '25,500',
       '25,182',
+      '',
       '',
     ],
   },
